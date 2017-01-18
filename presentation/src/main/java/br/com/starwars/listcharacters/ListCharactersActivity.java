@@ -31,6 +31,9 @@ public class ListCharactersActivity extends BaseActivity implements ListCharacte
     @Inject
     ListCharactersAdapter listCharactersAdapter;
 
+    @Inject
+    LinearLayoutManager linearLayoutManager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +48,7 @@ public class ListCharactersActivity extends BaseActivity implements ListCharacte
     @Override
     public void setupView() {
         ButterKnife.bind(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(listCharactersAdapter);
     }
 

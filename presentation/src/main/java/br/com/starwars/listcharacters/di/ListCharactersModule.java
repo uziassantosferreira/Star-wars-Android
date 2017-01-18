@@ -1,5 +1,8 @@
 package br.com.starwars.listcharacters.di;
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+
 import br.com.starwars.di.PerActivity;
 import br.com.starwars.listcharacters.ListCharactersAdapter;
 import br.com.starwars.listcharacters.ListCharactersContract;
@@ -25,4 +28,11 @@ public class ListCharactersModule {
     ListCharactersContract.Presenter providePresenter() {
         return new ListCharactersPresenter();
     }
+
+    @PerActivity
+    @Provides
+    LinearLayoutManager provideLinearLayoutManager(Context context) {
+        return new LinearLayoutManager(context);
+    }
+
 }
