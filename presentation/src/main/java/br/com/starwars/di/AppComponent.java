@@ -3,6 +3,8 @@ package br.com.starwars.di;
 import javax.inject.Singleton;
 
 import br.com.starwars.StartWarsApplication;
+import br.com.starwars.listcharacters.di.ListCharactersComponent;
+import br.com.starwars.listcharacters.di.ListCharactersModule;
 import dagger.Component;
 
 /**
@@ -14,4 +16,6 @@ import dagger.Component;
 public interface AppComponent {
 
     void inject(StartWarsApplication startWarsApplication);
+
+    ListCharactersComponent plus(ListCharactersModule listCharactersModule);
 }

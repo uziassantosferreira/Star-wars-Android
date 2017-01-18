@@ -1,6 +1,7 @@
 package br.com.starwars.listcharacters;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,17 +17,15 @@ import butterknife.ButterKnife;
  * Created by Uzias on 17/01/17.
  */
 
-public class ListCharactersAdaper  extends RecyclerView.Adapter<ListCharactersAdaper.ViewHolder>{
+public class ListCharactersAdapter extends RecyclerView.Adapter<ListCharactersAdapter.ViewHolder>{
 
-    private final List<Character> characters;
-
-    public ListCharactersAdaper(List<Character> characters){
-        this.characters = characters;
-    }
+    private List<Character> characters;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_character, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -35,12 +34,16 @@ public class ListCharactersAdaper  extends RecyclerView.Adapter<ListCharactersAd
         holder.setFields(character.getName(), character.getUrl());
     }
 
-    @Override
-    public int getItemCount() {
-        return characters == null ? 0  : characters.size();
+    public void setList(List<Character> characters) {
+        this.characters = characters;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemCount() {
+        return characters == null ? 0 : characters.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.textview_title)
         TextView textViewTitle;
@@ -48,12 +51,12 @@ public class ListCharactersAdaper  extends RecyclerView.Adapter<ListCharactersAd
         @BindView(R.id.textview_sub_title)
         TextView textViewSubTitle;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-        public void setFields(String title, String subTitle) {
+        void setFields(String title, String subTitle) {
             textViewTitle.setText(title);
             textViewSubTitle.setText(subTitle);
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import br.com.starwars.navigation.Navigator;
 import dagger.Module;
 import dagger.Provides;
 
@@ -25,5 +26,11 @@ public class AppModule {
     @Singleton
     Context provideApplicationContext() {
         return application;
+    }
+
+    @Provides
+    @Singleton
+    Navigator provideNavigator() {
+        return new Navigator();
     }
 }
