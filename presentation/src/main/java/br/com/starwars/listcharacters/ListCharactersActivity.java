@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import java.util.List;
 
@@ -43,6 +45,14 @@ public class ListCharactersActivity extends BaseActivity implements ListCharacte
         presenter.setView(this);
         presenter.onViewCreated();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.qrcode, menu);
+        return true;
     }
 
     @Override

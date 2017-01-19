@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Star Wars</string>
+    <string name="scan_qrcode">Escanear QR Code</string>
 </resources>
