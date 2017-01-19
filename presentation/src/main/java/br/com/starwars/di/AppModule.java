@@ -5,7 +5,9 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import br.com.starwars.domain.providers.SchedulerProvider;
 import br.com.starwars.navigation.Navigator;
+import br.com.starwars.utils.ThreadUtil;
 import dagger.Module;
 import dagger.Provides;
 
@@ -32,5 +34,11 @@ public class AppModule {
     @Singleton
     Navigator provideNavigator() {
         return new Navigator();
+    }
+
+    @Singleton
+    @Provides
+    SchedulerProvider provideSchedulerProvider() {
+        return new ThreadUtil();
     }
 }

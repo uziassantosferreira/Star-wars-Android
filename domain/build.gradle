@@ -33,5 +33,5 @@ sourceSets {
 dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'javax.inject:javax.inject:1'
-    compile "io.reactivex.rxjava2:rxjava:2.0.0"
+    compile "io.reactivex.rxjava2:rxjava:2.0.1"
 }

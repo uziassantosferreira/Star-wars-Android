@@ -1,10 +1,12 @@
 package br.com.starwars.listcharacters;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
-import br.com.starwars.model.Character;
+import br.com.startwars.data.repositories.CharacterDataRepository;
+import br.com.starwars.domain.models.Character;
+import br.com.starwars.domain.providers.SchedulerProvider;
+import io.reactivex.observers.DisposableSingleObserver;
 
 /**
  * Created by Uzias on 17/01/17.
@@ -13,6 +15,13 @@ import br.com.starwars.model.Character;
 public class ListCharactersPresenter implements ListCharactersContract.Presenter {
 
     private ListCharactersContract.View view;
+    private CharacterDataRepository characterDataRepository;
+    private SchedulerProvider schedulerProvider;
+
+    public ListCharactersPresenter(CharacterDataRepository characterDataRepository, SchedulerProvider schedulerProvider) {
+        this.characterDataRepository = characterDataRepository;
+        this.schedulerProvider = schedulerProvider;
+    }
 
     @Override
     public void setView(ListCharactersContract.View view){
@@ -21,13 +30,17 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
     @Override
     public void onViewCreated() {
         view.setupView();
-        List<Character> list = new ArrayList<>();
-        for (int i = 0; i < 50; i++){
-            Character character = new Character();
-            character.setName("Uzias " + i);
-            character.setUrl("wwww.google.com.br");
-            list.add(character);
-        }
-        view.setListAndNotifyAdaper(list);
+        characterDataRepository.getListCharacters().subscribeOn(schedulerProvider.io()).subscribe(new DisposableSingleObserver<List<br.com.starwars.domain.models.Character>>() {
+            @Override
+            public void onSuccess(List<Character> list) {
+                view.setListAndNotifyAdaper(list);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+
     }
 }

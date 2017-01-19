@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.starwars.R;
-import br.com.starwars.model.Character;
+import br.com.starwars.domain.models.Character;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

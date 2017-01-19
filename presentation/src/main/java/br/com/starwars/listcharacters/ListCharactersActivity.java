@@ -11,8 +11,8 @@ import javax.inject.Inject;
 
 import br.com.starwars.R;
 import br.com.starwars.base.BaseActivity;
+import br.com.starwars.domain.models.Character;
 import br.com.starwars.listcharacters.di.ListCharactersModule;
-import br.com.starwars.model.Character;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

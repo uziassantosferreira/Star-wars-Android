@@ -2,7 +2,7 @@ package br.com.starwars.listcharacters;
 
 import java.util.List;
 
-import br.com.starwars.model.Character;
+import br.com.starwars.domain.models.Character;
 
 /**
  * Created by Uzias on 17/01/17.

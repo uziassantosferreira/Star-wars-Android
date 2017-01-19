@@ -3,7 +3,14 @@ package br.com.starwars.listcharacters.di;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 
+import javax.inject.Singleton;
+
+import br.com.startwars.data.mappers.CharacterMapper;
+import br.com.startwars.data.repositories.CharacterDataRepository;
+import br.com.startwars.data.store.PeopleCache;
+import br.com.startwars.data.store.realm.RealmPeopleCache;
 import br.com.starwars.di.PerActivity;
+import br.com.starwars.domain.providers.SchedulerProvider;
 import br.com.starwars.listcharacters.ListCharactersAdapter;
 import br.com.starwars.listcharacters.ListCharactersContract;
 import br.com.starwars.listcharacters.ListCharactersPresenter;
@@ -25,14 +32,32 @@ public class ListCharactersModule {
 
     @PerActivity
     @Provides
-    ListCharactersContract.Presenter providePresenter() {
-        return new ListCharactersPresenter();
+    ListCharactersContract.Presenter providePresenter(CharacterDataRepository characterDataRepository, SchedulerProvider schedulerProvider) {
+        return new ListCharactersPresenter(characterDataRepository, schedulerProvider);
     }
 
     @PerActivity
     @Provides
     LinearLayoutManager provideLinearLayoutManager(Context context) {
         return new LinearLayoutManager(context);
+    }
+
+    @PerActivity
+    @Provides
+    CharacterMapper provideCharacterMapper() {
+        return new CharacterMapper();
+    }
+
+    @PerActivity
+    @Provides
+    PeopleCache providePeopleCache() {
+        return new RealmPeopleCache();
+    }
+
+    @PerActivity
+    @Provides
+    CharacterDataRepository provideCharacterDataRepository(PeopleCache peopleCache, CharacterMapper characterMapper) {
+        return new CharacterDataRepository(peopleCache, characterMapper);
     }
 
 }
