@@ -8,9 +8,14 @@ import br.com.startwars.data.entity.PeopleEntity;
  */
 
 public class PeopleEntityMapper implements Mapper<PeopleApiEntity, PeopleEntity>  {
+
     @Override
     public PeopleEntity transform(PeopleApiEntity peopleApiEntity) {
         PeopleEntity peopleEntity = new PeopleEntity();
+        peopleEntity.setUrl(peopleApiEntity.getUrl());
+        peopleEntity.setName(peopleApiEntity.getName());
         return peopleEntity;
     }
+
+
 }
