@@ -7,6 +7,7 @@ import br.com.startwars.data.store.realm.RealmPeopleCache;
 import br.com.starwars.detailscharacter.DetailsCharacterContract;
 import br.com.starwars.detailscharacter.DetailsCharacterPresenter;
 import br.com.starwars.di.PerActivity;
+import br.com.starwars.domain.interactor.CharactersUseCase;
 import br.com.starwars.domain.providers.SchedulerProvider;
 import br.com.starwars.domain.repositories.CharacterRepository;
 import dagger.Module;
@@ -21,26 +22,9 @@ public class DetailsCharacterModule {
 
     @PerActivity
     @Provides
-    DetailsCharacterContract.Presenter providePresenter(CharacterRepository characterRepository, SchedulerProvider schedulerProvider) {
-        return new DetailsCharacterPresenter(characterRepository, schedulerProvider);
+    DetailsCharacterContract.Presenter providePresenter(CharactersUseCase charactersUseCase, SchedulerProvider schedulerProvider) {
+        return new DetailsCharacterPresenter(charactersUseCase, schedulerProvider);
     }
 
-    @PerActivity
-    @Provides
-    CharacterMapper provideCharacterMapper() {
-        return new CharacterMapper();
-    }
-
-    @PerActivity
-    @Provides
-    PeopleCache providePeopleCache() {
-        return new RealmPeopleCache();
-    }
-
-    @PerActivity
-    @Provides
-    CharacterRepository provideCharacterDataRepository(PeopleCache peopleCache, CharacterMapper characterMapper) {
-        return new CharacterDataRepository(peopleCache, characterMapper);
-    }
 
 }

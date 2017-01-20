@@ -5,9 +5,9 @@ import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.List;
 
+import br.com.starwars.domain.interactor.CharactersUseCase;
 import br.com.starwars.domain.models.Character;
 import br.com.starwars.domain.providers.SchedulerProvider;
-import br.com.starwars.domain.repositories.CharacterRepository;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -17,11 +17,11 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class ListCharactersPresenter implements ListCharactersContract.Presenter {
 
     private ListCharactersContract.View view;
-    private CharacterRepository characterRepository;
+    private CharactersUseCase charactersUseCase;
     private SchedulerProvider schedulerProvider;
 
-    public ListCharactersPresenter(CharacterRepository characterRepository, SchedulerProvider schedulerProvider) {
-        this.characterRepository = characterRepository;
+    public ListCharactersPresenter(CharactersUseCase charactersUseCase, SchedulerProvider schedulerProvider) {
+        this.charactersUseCase = charactersUseCase;
         this.schedulerProvider = schedulerProvider;
     }
 
@@ -39,7 +39,7 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
     public void barcodeScanned(Barcode barcode) {
         view.showProgressDialog();
         String url = barcode.displayValue;
-        characterRepository.getCharacterByUrl(url)
+        charactersUseCase.getCharacterByUrl(url)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(new DisposableSingleObserver<Character>() {
@@ -66,7 +66,7 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
     }
 
     private void getListCharacters(){
-        characterRepository.getListCharacters()
+        charactersUseCase.getListCharacters()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(new DisposableSingleObserver<List<Character>>() {

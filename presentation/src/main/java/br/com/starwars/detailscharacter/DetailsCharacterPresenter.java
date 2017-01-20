@@ -1,8 +1,8 @@
 package br.com.starwars.detailscharacter;
 
+import br.com.starwars.domain.interactor.CharactersUseCase;
 import br.com.starwars.domain.models.Character;
 import br.com.starwars.domain.providers.SchedulerProvider;
-import br.com.starwars.domain.repositories.CharacterRepository;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -11,19 +11,19 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class DetailsCharacterPresenter implements DetailsCharacterContract.Presenter {
 
-    private CharacterRepository characterRepository;
+    private CharactersUseCase charactersUseCase;
     private SchedulerProvider schedulerProvider;
     private DetailsCharacterContract.View view;
 
-    public DetailsCharacterPresenter(CharacterRepository characterRepository, SchedulerProvider schedulerProvider) {
-        this.characterRepository = characterRepository;
+    public DetailsCharacterPresenter(CharactersUseCase charactersUseCase, SchedulerProvider schedulerProvider) {
+        this.charactersUseCase = charactersUseCase;
         this.schedulerProvider = schedulerProvider;
     }
 
     @Override
     public void onViewCreated() {
         view.showProgressDialog();
-        characterRepository.getCharacterByUrl("http://swapi.co/api/people/1/")
+        charactersUseCase.getCharacterByUrl("http://swapi.co/api/people/1/")
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(new DisposableSingleObserver<Character>() {
