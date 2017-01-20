@@ -2,4 +2,7 @@
 <resources>
     <dimen name="items_offeset">12dp</dimen>
     <dimen name="cardview_corner_radius">4dp</dimen>
+    <dimen name="detail_character_backdrop_height">256dp</dimen>
+    <dimen name="card_margin">16dp</dimen>
+
 </resources>

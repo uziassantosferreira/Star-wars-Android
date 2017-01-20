@@ -12,6 +12,9 @@ public interface DetailsCharacterContract {
         void showProgressDialog();
 
         void hideProgressDialog();
+
+        void setFields(String name, String url, String height, String mass, String hairColor,
+                       String skinColor, String eyeColor, String birthYear, String gender);
     }
 
     interface Presenter {

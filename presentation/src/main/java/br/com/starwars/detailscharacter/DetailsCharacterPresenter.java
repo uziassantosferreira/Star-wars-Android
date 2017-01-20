@@ -28,8 +28,12 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(new DisposableSingleObserver<Character>() {
                     @Override
-                    public void onSuccess(Character value) {
+                    public void onSuccess(Character character) {
+                        view.setFields(character.getName(), character.getUrl(), character.getHeight(),
+                                character.getMass(), character.getHairColor(), character.getSkinColor(),
+                                character.getEyeColor(), character.getBirthYear(), character.getGender());
                         view.hideProgressDialog();
+
                     }
 
                     @Override

@@ -14,6 +14,13 @@ public class PeopleEntityMapper implements Mapper<PeopleApiEntity, PeopleEntity>
         PeopleEntity peopleEntity = new PeopleEntity();
         peopleEntity.setUrl(peopleApiEntity.getUrl());
         peopleEntity.setName(peopleApiEntity.getName());
+        peopleEntity.setHeight(peopleApiEntity.getHeight());
+        peopleEntity.setMass(peopleApiEntity.getMass());
+        peopleEntity.setSkinColor(peopleApiEntity.getSkinColor());
+        peopleEntity.setHairColor(peopleApiEntity.getHairColor());
+        peopleEntity.setGender(peopleApiEntity.getGender());
+        peopleEntity.setBirthYear(peopleApiEntity.getBirthYear());
+        peopleEntity.setEyeColor(peopleApiEntity.getEyeColor());
         return peopleEntity;
     }
 

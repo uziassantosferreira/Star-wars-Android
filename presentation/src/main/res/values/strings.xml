@@ -2,6 +2,20 @@
     <string name="app_name">Star Wars</string>
     <string name="scan_qrcode">Escanear QR Code</string>
 
-    <string name="activity_characters_list_scan_qrcode">Escaneando...</string>
+
     <string name="global_loading">Aguarde...</string>
+
+
+    <string name="activity_characters_list_scan_qrcode">Escaneando...</string>
+
+    <string name="activity_details_character_height_label">Altura</string>
+    <string name="activity_details_character_mass_label">Massa</string>
+    <string name="activity_details_character_hair_color_label">Cor do cabelo</string>
+    <string name="activity_details_character_skin_color_label">Cor da pele</string>
+    <string name="activity_details_character_eye_color_label">Cor do olho</string>
+    <string name="activity_details_character_birth_year_label">Ano de nascimento</string>
+    <string name="activity_details_character_gender_label">Gênero</string>
+    <string name="activity_details_character_url_label">Url</string>
+
+
 </resources>

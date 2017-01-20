@@ -17,6 +17,13 @@ public class CharacterMapper implements Mapper<PeopleEntity, Character>  {
         Character character = new Character();
         character.setUrl(peopleEntity.getUrl());
         character.setName(peopleEntity.getName());
+        character.setBirthYear(peopleEntity.getBirthYear());
+        character.setEyeColor(peopleEntity.getEyeColor());
+        character.setSkinColor(peopleEntity.getSkinColor());
+        character.setGender(peopleEntity.getGender());
+        character.setHeight(peopleEntity.getHeight());
+        character.setHairColor(peopleEntity.getHairColor());
+        character.setMass(peopleEntity.getMass());
         return character;
     }
 

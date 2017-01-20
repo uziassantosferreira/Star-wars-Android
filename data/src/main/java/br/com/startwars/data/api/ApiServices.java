@@ -12,7 +12,6 @@ import retrofit2.http.Path;
 
 public interface ApiServices {
 
-
     @GET("people/{id}/")
     Single<Response<PeopleApiEntity>> getPeople(@Path("id") long id);
 
