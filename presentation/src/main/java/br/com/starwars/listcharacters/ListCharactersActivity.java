@@ -49,13 +49,8 @@ public class ListCharactersActivity extends BaseActivity implements View {
 
         initializeInjector();
         presenter.setView(this);
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         presenter.onViewCreated();
+
     }
 
     @Override

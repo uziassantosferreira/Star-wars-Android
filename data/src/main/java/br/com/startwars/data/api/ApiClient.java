@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import br.com.startwars.data.Utils;
 import br.com.startwars.data.entity.PeopleEntity;
 import br.com.startwars.data.mappers.Mapper;
 import br.com.startwars.data.mappers.PeopleEntityMapper;
@@ -50,10 +51,10 @@ public class ApiClient {
         apiServices = retrofit.create(ApiServices.class);
     }
 
-    public static Single<PeopleEntity> getPeople(String id, PeopleCache peopleCache) {
-        return getApiServices().getPeople(1)
+    public static Single<PeopleEntity> getPeople(String url, PeopleCache peopleCache) {
+        return getApiServices().getPeople(Utils.ReplaceStringToNumbers(url))
                 .compose(mapResponse(new PeopleEntityMapper()))
-                .compose(verifyRequestError()).flatMap(peopleEntity -> peopleCache.save(peopleEntity));
+                .compose(verifyRequestError()).flatMap(peopleCache::save);
     }
 
     private static SingleTransformer<Response<Void>, Response<Void>> mapResponse() {

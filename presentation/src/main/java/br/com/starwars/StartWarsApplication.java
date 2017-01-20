@@ -6,6 +6,7 @@ import br.com.startwars.data.Utils;
 import br.com.starwars.di.AppComponent;
 import br.com.starwars.di.AppModule;
 import br.com.starwars.di.DaggerAppComponent;
+import io.realm.Realm;
 
 /**
  * Created by Uzias on 17/01/17.
@@ -34,7 +35,7 @@ public class StartWarsApplication extends Application {
                 .appModule(new AppModule(this)).build();
 
         Utils.initApiUrls(() -> BuildConfig.API_ENDPOINT);
-        Utils.initRealm(this);
+        Realm.init(this);
     }
 
     public AppComponent getApplicationComponent() {

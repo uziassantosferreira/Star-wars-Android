@@ -29,12 +29,6 @@ public class CharacterDataRepository implements CharacterRepository {
     public Single<Character> getCharacterByUrl(String url) {
         return peopleCache.getByUrl(url)
                 .onErrorResumeNext(ApiClient.getPeople(url, peopleCache))
-                .flatMap(peopleEntity -> {
-                    if (peopleEntity == null){
-                        return ApiClient.getPeople(url, peopleCache);
-                    }
-                    return Single.just(peopleEntity);
-                })
                 .map(characterMapper::transform);
     }
 

@@ -23,10 +23,7 @@ public class CharacterMapper implements Mapper<PeopleEntity, Character>  {
         List<Character> characters = new ArrayList<>();
         if (peopleEntities != null && !peopleEntities.isEmpty()){
             for (PeopleEntity peopleEntity: peopleEntities){
-                Character character = new Character();
-                character.setUrl(peopleEntity.getUrl());
-                character.setName(peopleEntity.getName());
-                characters.add(character);
+                characters.add(transform(peopleEntity));
             }
         }
 

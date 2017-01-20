@@ -9,6 +9,7 @@ import br.com.startwars.data.store.PeopleCache;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
+import io.realm.RealmResults;
 
 /**
  * Created by Uzias on 18/01/17.
@@ -40,8 +41,12 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
         return Single.create(new SingleOnSubscribe<List<PeopleEntity>>() {
             @Override
             public void subscribe(SingleEmitter<List<PeopleEntity>> e) throws Exception {
-                List<PeopleEntity> result = getRealm().where(PeopleEntity.class).findAll();
-                e.onSuccess(result);
+                RealmResults<PeopleEntity> realmResults = getRealm().where(PeopleEntity.class).findAll();
+                List<PeopleEntity> peopleEntities = getRealm().copyFromRealm(realmResults);
+                closeRealm();
+                e.onSuccess(peopleEntities);
+
+
             }
         });
     }

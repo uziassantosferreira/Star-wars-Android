@@ -18,4 +18,8 @@ public class Utils {
     public static void initRealm(Context context) {
         Realm.init(context);
     }
+
+    public static long ReplaceStringToNumbers(String url) {
+        return Long.valueOf(url.replaceAll("\\D+",""));
+    }
 }
