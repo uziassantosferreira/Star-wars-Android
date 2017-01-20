@@ -1,5 +1,7 @@
 package br.com.starwars.base;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
@@ -14,6 +16,8 @@ import br.com.starwars.navigation.Navigator;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private Dialog progressDialog;
+
     @Inject
     protected Navigator navigator;
 
@@ -21,4 +25,21 @@ public class BaseActivity extends AppCompatActivity {
         return StartWarsApplication.getInstance().getApplicationComponent();
     }
 
+    public void showProgressDialog() {
+        if (progressDialog == null || !progressDialog.isShowing()) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCanceledOnTouchOutside(false);
+            if (!isFinishing()) {
+                progressDialog.show();
+            }
+        }
+    }
+
+    public void hideProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            if (!isFinishing()) {
+                progressDialog.dismiss();
+            }
+        }
+    }
 }

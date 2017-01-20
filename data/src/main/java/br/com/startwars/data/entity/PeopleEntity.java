@@ -1,7 +1,6 @@
 package br.com.startwars.data.entity;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Uzias on 18/01/17.

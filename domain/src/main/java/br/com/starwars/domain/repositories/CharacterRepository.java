@@ -11,7 +11,7 @@ import io.reactivex.Single;
 
 public interface CharacterRepository {
 
-    Single<Character> getCharacter();
+    Single<Character> getCharacterByUrl(String url);
 
     Single<List<Character>> getListCharacters();
 }

@@ -7,8 +7,12 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import br.com.startwars.data.entity.PeopleEntity;
 import br.com.startwars.data.mappers.Mapper;
 import br.com.startwars.data.mappers.PeopleEntityMapper;
+import br.com.startwars.data.store.PeopleCache;
+import br.com.startwars.data.store.realm.RealmPeopleCache;
 import io.reactivex.Single;
+import io.reactivex.SingleSource;
 import io.reactivex.SingleTransformer;
+import io.reactivex.functions.Function;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
@@ -46,10 +50,10 @@ public class ApiClient {
         apiServices = retrofit.create(ApiServices.class);
     }
 
-    public static Single<PeopleEntity> getPeople(final long id) {
-        return getApiServices().getPeople(id)
+    public static Single<PeopleEntity> getPeople(String id, PeopleCache peopleCache) {
+        return getApiServices().getPeople(1)
                 .compose(mapResponse(new PeopleEntityMapper()))
-                .compose(verifyRequestError());
+                .compose(verifyRequestError()).flatMap(peopleEntity -> peopleCache.save(peopleEntity));
     }
 
     private static SingleTransformer<Response<Void>, Response<Void>> mapResponse() {

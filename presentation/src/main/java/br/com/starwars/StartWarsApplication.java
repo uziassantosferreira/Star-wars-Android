@@ -2,6 +2,7 @@ package br.com.starwars;
 
 import android.app.Application;
 
+import br.com.startwars.data.Utils;
 import br.com.starwars.di.AppComponent;
 import br.com.starwars.di.AppModule;
 import br.com.starwars.di.DaggerAppComponent;
@@ -31,6 +32,9 @@ public class StartWarsApplication extends Application {
         setInstance(this);
         applicationComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this)).build();
+
+        Utils.initApiUrls(() -> BuildConfig.API_ENDPOINT);
+        Utils.initRealm(this);
     }
 
     public AppComponent getApplicationComponent() {

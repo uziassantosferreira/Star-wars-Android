@@ -2,6 +2,7 @@ package br.com.startwars.data.store;
 
 import java.util.List;
 
+import br.com.startwars.data.entity.PeopleApiEntity;
 import br.com.startwars.data.entity.PeopleEntity;
 import io.reactivex.Single;
 
@@ -11,9 +12,11 @@ import io.reactivex.Single;
 
 public interface PeopleCache extends CacheStore {
 
-    Single<PeopleEntity> getPeopleEntity();
+    Single<PeopleEntity> getByUrl(String url);
 
-    Single<List<PeopleEntity>> getListPeople();
+    Single<List<PeopleEntity>> getList();
+
+    Single<PeopleEntity> save(PeopleEntity peopleApiEntity);
 
 
 }

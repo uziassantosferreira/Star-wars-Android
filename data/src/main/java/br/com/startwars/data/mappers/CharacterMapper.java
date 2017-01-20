@@ -21,7 +21,7 @@ public class CharacterMapper implements Mapper<PeopleEntity, Character>  {
 
     public List<Character> transform(List<PeopleEntity> peopleEntities) {
         List<Character> characters = new ArrayList<>();
-        if (peopleEntities != null && peopleEntities.isEmpty()){
+        if (peopleEntities != null && !peopleEntities.isEmpty()){
             for (PeopleEntity peopleEntity: peopleEntities){
                 Character character = new Character();
                 character.setUrl(peopleEntity.getUrl());

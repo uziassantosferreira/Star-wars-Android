@@ -1,11 +1,15 @@
 package br.com.starwars.listcharacters;
 
 
+import com.google.android.gms.vision.barcode.Barcode;
+
 import java.util.List;
 
 import br.com.startwars.data.repositories.CharacterDataRepository;
 import br.com.starwars.domain.models.Character;
 import br.com.starwars.domain.providers.SchedulerProvider;
+import br.com.starwars.domain.repositories.CharacterRepository;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -15,11 +19,11 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class ListCharactersPresenter implements ListCharactersContract.Presenter {
 
     private ListCharactersContract.View view;
-    private CharacterDataRepository characterDataRepository;
+    private CharacterRepository characterRepository;
     private SchedulerProvider schedulerProvider;
 
-    public ListCharactersPresenter(CharacterDataRepository characterDataRepository, SchedulerProvider schedulerProvider) {
-        this.characterDataRepository = characterDataRepository;
+    public ListCharactersPresenter(CharacterRepository characterRepository, SchedulerProvider schedulerProvider) {
+        this.characterRepository = characterRepository;
         this.schedulerProvider = schedulerProvider;
     }
 
@@ -27,20 +31,54 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
     public void setView(ListCharactersContract.View view){
         this.view = view;
     }
+
     @Override
-    public void onViewCreated() {
-        view.setupView();
-        characterDataRepository.getListCharacters().subscribeOn(schedulerProvider.io()).subscribe(new DisposableSingleObserver<List<br.com.starwars.domain.models.Character>>() {
+    public void clickedMenuItemQRCode() {
+        view.openScanQRCode();
+    }
+
+    @Override
+    public void barcodeScanned(Barcode barcode) {
+        view.showProgressDialog();
+        String url = barcode.displayValue;
+        characterRepository.getCharacterByUrl(url)
+                .subscribeOn(schedulerProvider.mainThread())
+                .subscribe(new DisposableSingleObserver<Character>() {
             @Override
-            public void onSuccess(List<Character> list) {
-                view.setListAndNotifyAdaper(list);
+            public void onSuccess(Character value) {
+                view.hideProgressDialog();
+                getListCharacters();
             }
 
             @Override
             public void onError(Throwable e) {
-
+                //TODO
+                view.hideProgressDialog();
             }
         });
+    }
 
+    @Override
+    public void onViewCreated() {
+        view.setupView();
+        getListCharacters();
+
+    }
+
+    private void getListCharacters(){
+        characterRepository.getListCharacters()
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Character>>() {
+                    @Override
+                    public void onSuccess(List<Character> list) {
+                        view.setListAndNotifyAdaper(list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //TODO
+                    }
+                });
     }
 }
