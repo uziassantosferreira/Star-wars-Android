@@ -64,10 +64,6 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
 
     }
 
-    private void initializeInjector() {
-        getAppComponent().plus(new DetailsCharacterModule()).inject(this);
-    }
-
     @Override
     public void setFields(String name, String url, String height, String mass, String hairColor,
                           String skinColor, String eyeColor, String birthYear, String gender) {
@@ -95,6 +91,10 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
     @Override
     public void showGenericError() {
         Toast.makeText(this, R.string.global_generic_error, Toast.LENGTH_LONG);
+    }
+
+    private void initializeInjector() {
+        getAppComponent().plus(new DetailsCharacterModule()).inject(this);
     }
 
     public static void startActivity(Context context, String url){

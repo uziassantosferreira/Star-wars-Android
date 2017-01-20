@@ -5,6 +5,8 @@ import javax.inject.Singleton;
 import br.com.starwars.StartWarsApplication;
 import br.com.starwars.detailscharacter.di.DetailsCharacterComponent;
 import br.com.starwars.detailscharacter.di.DetailsCharacterModule;
+import br.com.starwars.film.di.FilmComponent;
+import br.com.starwars.film.di.FilmModule;
 import br.com.starwars.listcharacters.di.ListCharactersComponent;
 import br.com.starwars.listcharacters.di.ListCharactersModule;
 import dagger.Component;
@@ -22,4 +24,6 @@ public interface AppComponent {
     ListCharactersComponent plus(ListCharactersModule listCharactersModule);
 
     DetailsCharacterComponent plus(DetailsCharacterModule detailsCharacterModule);
+
+    FilmComponent plus(FilmModule filmModule);
 }
