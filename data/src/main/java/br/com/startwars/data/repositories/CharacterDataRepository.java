@@ -1,13 +1,14 @@
 package br.com.startwars.data.repositories;
 
 import java.util.List;
-import java.util.Observable;
 
 import br.com.startwars.data.api.ApiClient;
-import br.com.startwars.data.entity.PeopleEntity;
 import br.com.startwars.data.mappers.CharacterMapper;
+import br.com.startwars.data.mappers.FilmMapper;
+import br.com.startwars.data.store.FilmCache;
 import br.com.startwars.data.store.PeopleCache;
 import br.com.starwars.domain.models.Character;
+import br.com.starwars.domain.models.Film;
 import br.com.starwars.domain.repositories.CharacterRepository;
 import io.reactivex.Single;
 /**
@@ -17,11 +18,16 @@ import io.reactivex.Single;
 public class CharacterDataRepository implements CharacterRepository {
 
     private final PeopleCache peopleCache;
+    private final FilmCache filmCache;
     private CharacterMapper characterMapper;
+    private FilmMapper filmMapper;
 
-    public CharacterDataRepository(PeopleCache peopleCache, CharacterMapper characterMapper) {
+    public CharacterDataRepository(PeopleCache peopleCache, CharacterMapper characterMapper
+            , FilmCache filmCache, FilmMapper filmMapper) {
         this.peopleCache = peopleCache;
+        this.filmCache = filmCache;
         this.characterMapper = characterMapper;
+        this.filmMapper = filmMapper;
     }
 
 
@@ -30,6 +36,13 @@ public class CharacterDataRepository implements CharacterRepository {
         return peopleCache.getByUrl(url)
                 .onErrorResumeNext(ApiClient.getPeople(url, peopleCache))
                 .map(characterMapper::transform);
+    }
+
+    @Override
+    public Single<Film> getFilmByUrl(String url) {
+        return filmCache.getByUrl(url)
+                .onErrorResumeNext(ApiClient.getFilm(url, filmCache))
+                .map(filmMapper::transform);
     }
 
     @Override

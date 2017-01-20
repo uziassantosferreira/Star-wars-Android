@@ -5,15 +5,15 @@ import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import br.com.startwars.data.Utils;
+import br.com.startwars.data.entity.FilmEntity;
 import br.com.startwars.data.entity.PeopleEntity;
+import br.com.startwars.data.mappers.FilmEntityMapper;
 import br.com.startwars.data.mappers.Mapper;
 import br.com.startwars.data.mappers.PeopleEntityMapper;
+import br.com.startwars.data.store.FilmCache;
 import br.com.startwars.data.store.PeopleCache;
-import br.com.startwars.data.store.realm.RealmPeopleCache;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.SingleTransformer;
-import io.reactivex.functions.Function;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
@@ -57,6 +57,13 @@ public class ApiClient {
                 .compose(verifyRequestError())
                 .onErrorResumeNext(peopleCache.save(url))
                 .flatMap(peopleCache::save);
+    }
+
+    public static Single<FilmEntity> getFilm(String url, FilmCache filmCache) {
+        return getApiServices().getFilm(Utils.ReplaceStringToNumbers(url))
+                .compose(mapResponse(new FilmEntityMapper()))
+                .compose(verifyRequestError())
+                .flatMap(filmCache::save);
     }
 
     private static SingleTransformer<Response<Void>, Response<Void>> mapResponse() {

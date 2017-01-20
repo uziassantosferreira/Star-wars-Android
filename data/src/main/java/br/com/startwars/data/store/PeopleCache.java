@@ -17,7 +17,7 @@ public interface PeopleCache extends CacheStore {
 
     Single<List<PeopleEntity>> getList();
 
-    Single<PeopleEntity> save(PeopleEntity peopleApiEntity);
+    Single<PeopleEntity> save(PeopleEntity peopleEntity);
 
     Single<PeopleEntity> save(String url);
 
