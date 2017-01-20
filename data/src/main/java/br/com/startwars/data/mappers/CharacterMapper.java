@@ -11,6 +11,7 @@ import br.com.starwars.domain.models.Character;
  */
 
 public class CharacterMapper implements Mapper<PeopleEntity, Character>  {
+
     @Override
     public Character transform(PeopleEntity peopleEntity) {
         Character character = new Character();
