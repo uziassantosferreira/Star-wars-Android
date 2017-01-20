@@ -19,6 +19,7 @@ import br.com.starwars.R;
 import br.com.starwars.base.BaseActivity;
 import br.com.starwars.domain.models.Character;
 import br.com.starwars.listcharacters.di.ListCharactersModule;
+import br.com.starwars.utils.ListenerOnClickItemPosition;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,7 +29,7 @@ import static br.com.starwars.listcharacters.ListCharactersContract.*;
  * Created by Uzias on 17/01/17.
  */
 
-public class ListCharactersActivity extends BaseActivity implements View {
+public class ListCharactersActivity extends BaseActivity implements View, ListenerOnClickItemPosition {
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -50,7 +51,6 @@ public class ListCharactersActivity extends BaseActivity implements View {
         initializeInjector();
         presenter.setView(this);
         presenter.onViewCreated();
-
     }
 
     @Override
@@ -74,6 +74,7 @@ public class ListCharactersActivity extends BaseActivity implements View {
         ButterKnife.bind(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(listCharactersAdapter);
+        listCharactersAdapter.setListenerOnClickItemPosition(this);
     }
 
     @Override
@@ -96,6 +97,16 @@ public class ListCharactersActivity extends BaseActivity implements View {
         materialBarcodeScanner.startScan();
     }
 
+    @Override
+    public void goToDetailsCharacter(String url) {
+        navigator.goToDetailsCharacter(this, url);
+    }
+
+    @Override
+    public void onClickItemPosition(int position) {
+        presenter.clickedItemPosition(position);
+    }
+
     private void onClickQRCode(){
         presenter.clickedMenuItemQRCode();
     }
@@ -103,5 +114,4 @@ public class ListCharactersActivity extends BaseActivity implements View {
     private void initializeInjector() {
         getAppComponent().plus(new ListCharactersModule()).inject(this);
     }
-
 }

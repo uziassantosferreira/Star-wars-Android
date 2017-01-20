@@ -17,7 +17,7 @@ import br.com.starwars.navigation.Navigator;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private Dialog progressDialog;
+    private ProgressDialog progressDialog;
 
     @Inject
     protected Navigator navigator;
@@ -27,13 +27,13 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showProgressDialog() {
-        if (progressDialog == null || !progressDialog.isShowing()) {
+        if (progressDialog == null){
             progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle(R.string.global_loading);
+            progressDialog.setMessage(getString(R.string.global_loading));
             progressDialog.setCanceledOnTouchOutside(false);
-            if (!isFinishing()) {
-                progressDialog.show();
-            }
+        }
+        if (!progressDialog.isShowing() && !isFinishing()) {
+            progressDialog.show();
         }
     }
 

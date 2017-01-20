@@ -23,6 +23,8 @@ public interface ListCharactersContract {
         void showProgressDialog();
 
         void hideProgressDialog();
+
+        void goToDetailsCharacter(String url);
     }
 
     interface Presenter {
@@ -33,5 +35,7 @@ public interface ListCharactersContract {
         void clickedMenuItemQRCode();
 
         void barcodeScanned(Barcode barcode);
+
+        void clickedItemPosition(int position);
     }
 }

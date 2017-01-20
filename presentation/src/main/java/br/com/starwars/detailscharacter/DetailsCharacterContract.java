@@ -15,6 +15,10 @@ public interface DetailsCharacterContract {
 
         void setFields(String name, String url, String height, String mass, String hairColor,
                        String skinColor, String eyeColor, String birthYear, String gender);
+
+        String getUrlInIntent();
+
+        void finishActivity();
     }
 
     interface Presenter {

@@ -10,8 +10,10 @@ import java.util.List;
 
 import br.com.starwars.R;
 import br.com.starwars.domain.models.Character;
+import br.com.starwars.utils.ListenerOnClickItemPosition;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Uzias on 17/01/17.
@@ -19,7 +21,12 @@ import butterknife.ButterKnife;
 
 public class ListCharactersAdapter extends RecyclerView.Adapter<ListCharactersAdapter.ViewHolder>{
 
+    private ListenerOnClickItemPosition listenerOnClickItemPosition;
     private List<Character> characters;
+
+    public void setListenerOnClickItemPosition(ListenerOnClickItemPosition listenerOnClickItemPosition) {
+        this.listenerOnClickItemPosition = listenerOnClickItemPosition;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,6 +39,7 @@ public class ListCharactersAdapter extends RecyclerView.Adapter<ListCharactersAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         Character character = characters.get(position);
         holder.setFields(character.getName(), character.getUrl());
+        holder.setListenerOnClickView(listenerOnClickItemPosition, position);
     }
 
     public void setList(List<Character> characters) {
@@ -51,6 +59,9 @@ public class ListCharactersAdapter extends RecyclerView.Adapter<ListCharactersAd
         @BindView(R.id.textview_sub_title)
         TextView textViewSubTitle;
 
+        private ListenerOnClickItemPosition listenerOnClickView;
+        private int position;
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
@@ -59,6 +70,18 @@ public class ListCharactersAdapter extends RecyclerView.Adapter<ListCharactersAd
         void setFields(String title, String subTitle) {
             textViewTitle.setText(title);
             textViewSubTitle.setText(subTitle);
+        }
+
+        void setListenerOnClickView(ListenerOnClickItemPosition listenerOnClickView, int position){
+            this.listenerOnClickView = listenerOnClickView;
+            this.position = position;
+        }
+
+        @OnClick(R.id.cardview)
+        public void onClickCardview(){
+            if (listenerOnClickView != null){
+                listenerOnClickView.onClickItemPosition(position);
+            }
         }
     }
 

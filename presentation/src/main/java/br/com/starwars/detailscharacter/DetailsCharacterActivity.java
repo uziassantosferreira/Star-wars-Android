@@ -1,8 +1,11 @@
 package br.com.starwars.detailscharacter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -17,6 +20,8 @@ import butterknife.ButterKnife;
  */
 
 public class DetailsCharacterActivity extends BaseActivity implements DetailsCharacterContract.View {
+
+    private static final String BUNDLE_EXTRAS_URL = "bundle_extras_url";
 
     @Inject
     DetailsCharacterContract.Presenter presenter;
@@ -56,6 +61,7 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
         initializeInjector();
         presenter.setView(this);
         presenter.onViewCreated();
+
     }
 
     private void initializeInjector() {
@@ -74,5 +80,21 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
         textViewEyeColor.setText(eyeColor);
         textViewBirthYear.setText(birthYear);
         textViewGender.setText(gender);
+    }
+
+    @Override
+    public String getUrlInIntent() {
+        return getIntent() != null ? getIntent().getStringExtra(BUNDLE_EXTRAS_URL) : null;
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    public static void startActivity(Context context, String url){
+        Intent intent = new Intent(context, DetailsCharacterActivity.class);
+        intent.putExtra(BUNDLE_EXTRAS_URL, url);
+        context.startActivity(intent);
     }
 }

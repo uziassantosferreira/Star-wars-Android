@@ -19,6 +19,7 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
     private ListCharactersContract.View view;
     private CharactersUseCase charactersUseCase;
     private SchedulerProvider schedulerProvider;
+    private List<Character> characters;
 
     public ListCharactersPresenter(CharactersUseCase charactersUseCase, SchedulerProvider schedulerProvider) {
         this.charactersUseCase = charactersUseCase;
@@ -58,6 +59,12 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
     }
 
     @Override
+    public void clickedItemPosition(int position) {
+        Character character = characters.get(position);
+        view.goToDetailsCharacter(character.getUrl());
+    }
+
+    @Override
     public void onViewCreated() {
         view.setupView();
         getListCharacters();
@@ -71,7 +78,8 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
                 .subscribe(new DisposableSingleObserver<List<Character>>() {
                     @Override
                     public void onSuccess(List<Character> list) {
-                        view.setListAndNotifyAdaper(list);
+                        characters = list;
+                        view.setListAndNotifyAdaper(characters);
                     }
 
                     @Override

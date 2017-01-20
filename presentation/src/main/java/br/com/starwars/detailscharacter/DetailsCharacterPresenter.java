@@ -14,6 +14,7 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
     private CharactersUseCase charactersUseCase;
     private SchedulerProvider schedulerProvider;
     private DetailsCharacterContract.View view;
+    private String url;
 
     public DetailsCharacterPresenter(CharactersUseCase charactersUseCase, SchedulerProvider schedulerProvider) {
         this.charactersUseCase = charactersUseCase;
@@ -22,8 +23,22 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
 
     @Override
     public void onViewCreated() {
+        url = view.getUrlInIntent();
+        if (url == null){
+            view.finishActivity();
+        }else {
+            getCharacter();
+        }
+    }
+
+    @Override
+    public void setView(DetailsCharacterContract.View view) {
+        this.view = view;
+    }
+
+    private void getCharacter() {
         view.showProgressDialog();
-        charactersUseCase.getCharacterByUrl("http://swapi.co/api/people/1/")
+        charactersUseCase.getCharacterByUrl(url)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(new DisposableSingleObserver<Character>() {
@@ -43,8 +58,4 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
                 });
     }
 
-    @Override
-    public void setView(DetailsCharacterContract.View view) {
-        this.view = view;
-    }
 }
