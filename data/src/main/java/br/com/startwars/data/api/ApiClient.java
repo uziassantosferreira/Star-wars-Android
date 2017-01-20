@@ -54,7 +54,9 @@ public class ApiClient {
     public static Single<PeopleEntity> getPeople(String url, PeopleCache peopleCache) {
         return getApiServices().getPeople(Utils.ReplaceStringToNumbers(url))
                 .compose(mapResponse(new PeopleEntityMapper()))
-                .compose(verifyRequestError()).flatMap(peopleCache::save);
+                .compose(verifyRequestError())
+                .onErrorResumeNext(peopleCache.save(url))
+                .flatMap(peopleCache::save);
     }
 
     private static SingleTransformer<Response<Void>, Response<Void>> mapResponse() {

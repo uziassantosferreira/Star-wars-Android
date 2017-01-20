@@ -27,12 +27,9 @@ public class CharacterDataRepository implements CharacterRepository {
 
     @Override
     public Single<Character> getCharacterByUrl(String url) {
-        return ApiClient.getPeople(url, peopleCache)
+        return peopleCache.getByUrl(url)
+                .onErrorResumeNext(ApiClient.getPeople(url, peopleCache))
                 .map(characterMapper::transform);
-
-//        return peopleCache.getByUrl(url)
-//                .onErrorResumeNext(ApiClient.getPeople(url, peopleCache))
-//                .map(characterMapper::transform);
     }
 
     @Override

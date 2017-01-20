@@ -33,12 +33,10 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
                                 character.getMass(), character.getHairColor(), character.getSkinColor(),
                                 character.getEyeColor(), character.getBirthYear(), character.getGender());
                         view.hideProgressDialog();
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        //TODO
                         e.getMessage();
                         view.hideProgressDialog();
                     }

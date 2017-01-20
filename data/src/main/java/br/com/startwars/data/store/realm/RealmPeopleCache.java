@@ -1,9 +1,9 @@
 package br.com.startwars.data.store.realm;
 
-import java.util.ArrayList;
+import android.text.TextUtils;
+
 import java.util.List;
 
-import br.com.startwars.data.entity.PeopleApiEntity;
 import br.com.startwars.data.entity.PeopleEntity;
 import br.com.startwars.data.store.PeopleCache;
 import io.reactivex.Single;
@@ -17,22 +17,22 @@ import io.realm.RealmResults;
 
 public class RealmPeopleCache extends RealmCache implements PeopleCache {
 
-
     @Override
     public Single<PeopleEntity> getByUrl(String url) {
         return Single.create(new SingleOnSubscribe<PeopleEntity>() {
             @Override
             public void subscribe(SingleEmitter<PeopleEntity> e) throws Exception {
-                PeopleEntity realmResult = getRealm().where(PeopleEntity.class).equalTo("url", url).findFirst();
+                PeopleEntity realmResult = getRealm()
+                        .where(PeopleEntity.class)
+                        .equalTo("url", url)
+                        .findFirst();
                 PeopleEntity peopleEntity = getRealm().copyFromRealm(realmResult);
                 closeRealm();
-                if (peopleEntity == null){
+                if (peopleEntity == null || TextUtils.isEmpty(peopleEntity.getName())){
                     e.onError(new Throwable());
                 }else{
                     e.onSuccess(peopleEntity);
                 }
-
-
             }
         });
     }
@@ -42,12 +42,12 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
         return Single.create(new SingleOnSubscribe<List<PeopleEntity>>() {
             @Override
             public void subscribe(SingleEmitter<List<PeopleEntity>> e) throws Exception {
-                RealmResults<PeopleEntity> realmResults = getRealm().where(PeopleEntity.class).findAll();
+                RealmResults<PeopleEntity> realmResults = getRealm()
+                        .where(PeopleEntity.class)
+                        .findAll();
                 List<PeopleEntity> peopleEntities = getRealm().copyFromRealm(realmResults);
                 closeRealm();
                 e.onSuccess(peopleEntities);
-
-
             }
         });
     }
@@ -58,10 +58,31 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
             @Override
             public void subscribe(SingleEmitter<PeopleEntity> e) throws Exception {
                 getRealm().beginTransaction();
-                getRealm().copyToRealm(peopleEntity);
+                getRealm().copyToRealmOrUpdate(peopleEntity);
                 getRealm().commitTransaction();
                 closeRealm();
                 e.onSuccess(peopleEntity);
+            }
+        });
+    }
+
+    @Override
+    public Single<PeopleEntity> save(String url) {
+        return Single.create(new SingleOnSubscribe<PeopleEntity>() {
+            @Override
+            public void subscribe(SingleEmitter<PeopleEntity> e) throws Exception {
+                PeopleEntity realmResult = getRealm().where(PeopleEntity.class).equalTo("url", url).findFirst();
+                if (realmResult == null){
+                    getRealm().beginTransaction();
+                    PeopleEntity peopleEntity = new PeopleEntity();
+                    peopleEntity.setUrl(url);
+                    getRealm().copyToRealmOrUpdate(peopleEntity);
+                    getRealm().commitTransaction();
+                    closeRealm();
+                    e.onSuccess(peopleEntity);
+                }else{
+                    e.onError(new Throwable());
+                }
 
             }
         });

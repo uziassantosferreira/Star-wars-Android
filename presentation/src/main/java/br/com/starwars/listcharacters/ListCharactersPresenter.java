@@ -51,9 +51,8 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
 
             @Override
             public void onError(Throwable e) {
-                //TODO
-                e.getMessage();
                 view.hideProgressDialog();
+                e.getMessage();
             }
         });
     }
