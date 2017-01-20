@@ -92,6 +92,11 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
         finish();
     }
 
+    @Override
+    public void showGenericError() {
+        Toast.makeText(this, R.string.global_generic_error, Toast.LENGTH_LONG);
+    }
+
     public static void startActivity(Context context, String url){
         Intent intent = new Intent(context, DetailsCharacterActivity.class);
         intent.putExtra(BUNDLE_EXTRAS_URL, url);

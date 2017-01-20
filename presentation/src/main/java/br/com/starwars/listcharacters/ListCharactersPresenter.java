@@ -1,6 +1,5 @@
 package br.com.starwars.listcharacters;
 
-
 import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.List;
@@ -52,8 +51,9 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
 
             @Override
             public void onError(Throwable e) {
+                e.printStackTrace();
                 view.hideProgressDialog();
-                e.getMessage();
+                view.showGenericError();
             }
         });
     }
@@ -84,9 +84,8 @@ public class ListCharactersPresenter implements ListCharactersContract.Presenter
 
                     @Override
                     public void onError(Throwable e) {
-                        //TODO
-                        e.getMessage();
                         e.printStackTrace();
+                        view.showGenericError();
                     }
                 });
     }

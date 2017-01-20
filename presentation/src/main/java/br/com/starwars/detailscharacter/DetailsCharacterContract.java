@@ -19,6 +19,8 @@ public interface DetailsCharacterContract {
         String getUrlInIntent();
 
         void finishActivity();
+
+        void showGenericError();
     }
 
     interface Presenter {

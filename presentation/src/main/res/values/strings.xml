@@ -4,9 +4,9 @@
 
 
     <string name="global_loading">Aguarde...</string>
+    <string name="global_generic_error">Ocorreu um erro inesperado. Tente novamente.</string>
 
-
-    <string name="activity_characters_list_scan_qrcode">Escaneando...</string>
+    <string name="activity_list_characters_scan_qrcode">Escaneando...</string>
 
     <string name="activity_details_character_height_label">Altura</string>
     <string name="activity_details_character_mass_label">Massa</string>

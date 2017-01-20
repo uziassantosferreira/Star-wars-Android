@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.edwardvanraak.materialbarcodescanner.MaterialBarcodeScanner;
 import com.edwardvanraak.materialbarcodescanner.MaterialBarcodeScannerBuilder;
@@ -91,7 +92,7 @@ public class ListCharactersActivity extends BaseActivity implements View, Listen
                 .withBleepEnabled(true)
                 .withBackfacingCamera()
                 .withCenterTracker()
-                .withText(getString(R.string.activity_characters_list_scan_qrcode))
+                .withText(getString(R.string.activity_list_characters_scan_qrcode))
                 .withResultListener(presenter::barcodeScanned)
                 .build();
         materialBarcodeScanner.startScan();
@@ -100,6 +101,11 @@ public class ListCharactersActivity extends BaseActivity implements View, Listen
     @Override
     public void goToDetailsCharacter(String url) {
         navigator.goToDetailsCharacter(this, url);
+    }
+
+    @Override
+    public void showGenericError() {
+        Toast.makeText(this, R.string.global_generic_error, Toast.LENGTH_LONG);
     }
 
     @Override

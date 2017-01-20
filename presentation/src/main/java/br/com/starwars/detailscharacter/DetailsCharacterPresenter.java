@@ -52,8 +52,9 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
 
                     @Override
                     public void onError(Throwable e) {
-                        e.getMessage();
+                        e.printStackTrace();
                         view.hideProgressDialog();
+                        view.showGenericError();
                     }
                 });
     }

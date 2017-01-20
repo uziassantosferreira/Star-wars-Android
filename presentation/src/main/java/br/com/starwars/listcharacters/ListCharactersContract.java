@@ -25,6 +25,8 @@ public interface ListCharactersContract {
         void hideProgressDialog();
 
         void goToDetailsCharacter(String url);
+
+        void showGenericError();
     }
 
     interface Presenter {
