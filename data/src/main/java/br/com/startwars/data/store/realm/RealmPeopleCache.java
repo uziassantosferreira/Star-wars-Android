@@ -23,12 +23,13 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
         return Single.create(new SingleOnSubscribe<PeopleEntity>() {
             @Override
             public void subscribe(SingleEmitter<PeopleEntity> e) throws Exception {
-                PeopleEntity result = getRealm().where(PeopleEntity.class).equalTo("url", url).findFirst();
+                PeopleEntity realmResult = getRealm().where(PeopleEntity.class).equalTo("url", url).findFirst();
+                PeopleEntity peopleEntity = getRealm().copyFromRealm(realmResult);
                 closeRealm();
-                if (result == null){
+                if (peopleEntity == null){
                     e.onError(new Throwable());
                 }else{
-                    e.onSuccess(result);
+                    e.onSuccess(peopleEntity);
                 }
 
 

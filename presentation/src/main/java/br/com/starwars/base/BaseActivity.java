@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
 
+import br.com.starwars.R;
 import br.com.starwars.StartWarsApplication;
 import br.com.starwars.di.AppComponent;
 import br.com.starwars.navigation.Navigator;
@@ -28,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
     public void showProgressDialog() {
         if (progressDialog == null || !progressDialog.isShowing()) {
             progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle(R.string.global_loading);
             progressDialog.setCanceledOnTouchOutside(false);
             if (!isFinishing()) {
                 progressDialog.show();

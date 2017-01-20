@@ -9,6 +9,9 @@ public interface DetailsCharacterContract {
 
     interface View {
 
+        void showProgressDialog();
+
+        void hideProgressDialog();
     }
 
     interface Presenter {

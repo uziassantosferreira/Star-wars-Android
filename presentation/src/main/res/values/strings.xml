@@ -3,4 +3,5 @@
     <string name="scan_qrcode">Escanear QR Code</string>
 
     <string name="activity_characters_list_scan_qrcode">Escaneando...</string>
+    <string name="global_loading">Aguarde...</string>
 </resources>
