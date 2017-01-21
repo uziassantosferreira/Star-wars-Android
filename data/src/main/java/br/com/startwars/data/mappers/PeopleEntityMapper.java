@@ -21,6 +21,7 @@ public class PeopleEntityMapper implements Mapper<PeopleApiEntity, PeopleEntity>
         peopleEntity.setGender(peopleApiEntity.getGender());
         peopleEntity.setBirthYear(peopleApiEntity.getBirthYear());
         peopleEntity.setEyeColor(peopleApiEntity.getEyeColor());
+        peopleEntity.setFilms(peopleApiEntity.getFilms());
         return peopleEntity;
     }
 

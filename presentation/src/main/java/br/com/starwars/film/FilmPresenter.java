@@ -31,7 +31,8 @@ public class FilmPresenter implements FilmContract.Presenter {
     }
 
     private void getFilm() {
-        charactersUseCase.getFilmByUrl(url).subscribeOn(schedulerProvider.io())
+        charactersUseCase.getFilmByUrl(url)
+                .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(new DisposableSingleObserver<Film>() {
                     @Override

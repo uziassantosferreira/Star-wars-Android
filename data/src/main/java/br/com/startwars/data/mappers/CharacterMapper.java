@@ -24,6 +24,7 @@ public class CharacterMapper implements Mapper<PeopleEntity, Character>  {
         character.setHeight(peopleEntity.getHeight());
         character.setHairColor(peopleEntity.getHairColor());
         character.setMass(peopleEntity.getMass());
+        character.setFilms(peopleEntity.getFilms());
         return character;
     }
 

@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -22,9 +25,6 @@ import butterknife.ButterKnife;
 public class DetailsCharacterActivity extends BaseActivity implements DetailsCharacterContract.View {
 
     private static final String BUNDLE_EXTRAS_URL = "bundle_extras_url";
-
-    @Inject
-    DetailsCharacterContract.Presenter presenter;
 
     @BindView(R.id.textview_url)
     TextView textViewUrl;
@@ -44,12 +44,20 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
     @BindView(R.id.textview_eye_color)
     TextView textViewEyeColor;
 
-
     @BindView(R.id.textview_birth_year)
     TextView textViewBirthYear;
 
     @BindView(R.id.textview_gender)
     TextView textViewGender;
+
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+
+    @Inject
+    DetailsCharacterContract.Presenter presenter;
+
+    @Inject
+    DetailsCharacterFragmentPagerAdapter fragmentPagerAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,11 +98,23 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
 
     @Override
     public void showGenericError() {
-        Toast.makeText(this, R.string.global_generic_error, Toast.LENGTH_LONG);
+        Toast.makeText(this, R.string.global_generic_error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setupView() {
+        viewPager.setAdapter(fragmentPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+    }
+
+    @Override
+    public void setFilmsInAdapter(List<String> films) {
+        fragmentPagerAdapter.setList(films);
+        fragmentPagerAdapter.notifyDataSetChanged();
     }
 
     private void initializeInjector() {
-        getAppComponent().plus(new DetailsCharacterModule()).inject(this);
+        getAppComponent().plus(new DetailsCharacterModule(getSupportFragmentManager())).inject(this);
     }
 
     public static void startActivity(Context context, String url){

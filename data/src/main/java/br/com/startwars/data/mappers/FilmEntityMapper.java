@@ -16,7 +16,6 @@ public class FilmEntityMapper implements Mapper<FilmApiEntity, FilmEntity>  {
         filmEntity.setOpeningCrawl(filmApiEntity.getOpeningCrawl());
         filmEntity.setProducer(filmApiEntity.getProducer());
         filmEntity.setTitle(filmApiEntity.getTitle());
-
         return filmEntity;
     }
 

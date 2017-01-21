@@ -24,6 +24,7 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
     @Override
     public void onViewCreated() {
         url = view.getUrlInIntent();
+        view.setupView();
         if (url == null){
             view.finishActivity();
         }else {
@@ -48,6 +49,7 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
                                 character.getMass(), character.getHairColor(), character.getSkinColor(),
                                 character.getEyeColor(), character.getBirthYear(), character.getGender());
                         view.hideProgressDialog();
+                        view.setFilmsInAdapter(character.getFilms());
                     }
 
                     @Override

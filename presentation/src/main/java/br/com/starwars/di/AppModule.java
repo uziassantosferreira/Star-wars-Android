@@ -7,8 +7,11 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import br.com.startwars.data.mappers.CharacterMapper;
+import br.com.startwars.data.mappers.FilmMapper;
 import br.com.startwars.data.repositories.CharacterDataRepository;
+import br.com.startwars.data.store.FilmCache;
 import br.com.startwars.data.store.PeopleCache;
+import br.com.startwars.data.store.realm.RealmFilmCache;
 import br.com.startwars.data.store.realm.RealmPeopleCache;
 import br.com.starwars.domain.executor.ThreadExecutor;
 import br.com.starwars.domain.interactor.CharactersUseCase;
@@ -54,8 +57,9 @@ public class AppModule {
 
     @Singleton
     @Provides
-    CharacterRepository provideCharacterDataRepository(PeopleCache peopleCache, CharacterMapper characterMapper) {
-        return new CharacterDataRepository(peopleCache, characterMapper);
+    CharacterRepository provideCharacterDataRepository(PeopleCache peopleCache, CharacterMapper characterMapper
+            , FilmCache filmCache, FilmMapper filmMapper) {
+        return new CharacterDataRepository(peopleCache, characterMapper, filmCache, filmMapper);
     }
 
     @Singleton
@@ -70,6 +74,17 @@ public class AppModule {
         return new CharacterMapper();
     }
 
+    @Singleton
+    @Provides
+    FilmCache provideFilmCache() {
+        return new RealmFilmCache();
+    }
+
+    @Singleton
+    @Provides
+    FilmMapper provideFilmMapper() {
+        return new FilmMapper();
+    }
 
     @Singleton
     @Provides

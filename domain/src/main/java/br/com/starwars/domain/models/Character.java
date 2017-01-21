@@ -1,5 +1,7 @@
 package br.com.starwars.domain.models;
 
+import java.util.List;
+
 /**
  * Created by Uzias on 18/01/17.
  */
@@ -23,6 +25,8 @@ public class Character {
     private String gender;
 
     private String height;
+
+    private List<String> films;
 
     public String getHeight() {
         return height;
@@ -94,5 +98,13 @@ public class Character {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public List<String> getFilms() {
+        return films;
+    }
+
+    public void setFilms(List<String> films) {
+        this.films = films;
     }
 }

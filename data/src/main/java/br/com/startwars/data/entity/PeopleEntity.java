@@ -1,5 +1,12 @@
 package br.com.startwars.data.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import br.com.startwars.data.StringUtils;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -27,6 +34,8 @@ public class PeopleEntity extends RealmObject {
     private String gender;
 
     private String height;
+
+    private String films;
 
     public String getHairColor() {
         return hairColor;
@@ -100,4 +109,25 @@ public class PeopleEntity extends RealmObject {
         this.url = url;
     }
 
+    public List<String> getFilms() {
+        List<String> list;
+        if(films != null) {
+            list = Collections.unmodifiableList(new ArrayList<>((Arrays.asList(films.split(",")))));
+        } else {
+            list = Collections.emptyList();
+        }
+        return list;
+    }
+
+    public void setFilms(List<String> films) {
+        if(films == null || films.isEmpty()) {
+            this.films = null;
+        } else {
+            this.films = "";
+            for (String film: films){
+                this.films += film + ",";
+            }
+            this.films = this.films.substring(0, this.films.length() - 1);
+        }
+    }
 }

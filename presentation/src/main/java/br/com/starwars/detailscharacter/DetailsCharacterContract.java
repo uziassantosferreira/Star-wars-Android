@@ -1,6 +1,8 @@
 package br.com.starwars.detailscharacter;
 
 
+import java.util.List;
+
 /**
  * Created by Uzias on 20/01/17.
  */
@@ -21,6 +23,10 @@ public interface DetailsCharacterContract {
         void finishActivity();
 
         void showGenericError();
+
+        void setupView();
+
+        void setFilmsInAdapter(List<String> films);
     }
 
     interface Presenter {

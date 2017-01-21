@@ -2,6 +2,7 @@ package br.com.starwars.film;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_film, container);
+        View view = inflater.inflate(R.layout.fragment_film, container, false);
         ButterKnife.bind(this, view);
 
         initializeInjector();
@@ -44,6 +45,7 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        presenter.setView(this);
         presenter.onViewCreated();
     }
 
@@ -59,5 +61,13 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
 
     private void initializeInjector() {
         getAppComponent().plus(new FilmModule()).inject(this);
+    }
+
+    public static Fragment newFragment(String url) {
+        FilmFragment filmFragment = new FilmFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(BUNDLE_EXTRAS_URL, url);
+        filmFragment.setArguments(bundle);
+        return filmFragment;
     }
 }

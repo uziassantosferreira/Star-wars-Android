@@ -105,7 +105,7 @@ public class ListCharactersActivity extends BaseActivity implements View, Listen
 
     @Override
     public void showGenericError() {
-        Toast.makeText(this, R.string.global_generic_error, Toast.LENGTH_LONG);
+        Toast.makeText(this, R.string.global_generic_error, Toast.LENGTH_LONG).show();
     }
 
     @Override
