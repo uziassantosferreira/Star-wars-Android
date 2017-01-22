@@ -15,6 +15,10 @@ public class Utils {
         ApiClient.initUrls(provider);
     }
 
+    public static void initApiMovieUrls(ApiClient.UrlProvider provider) {
+        ApiClient.initUrls(provider);
+    }
+
     public static void initRealm(Context context) {
         Realm.init(context);
     }

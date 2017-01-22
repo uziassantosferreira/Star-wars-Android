@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -27,6 +30,9 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
 
     @BindView(R.id.textview_title)
     TextView textViewTitle;
+
+    @BindView(R.id.imageview)
+    ImageView imageView;
 
     @Inject
     FilmContract.Presenter presenter;
@@ -57,6 +63,11 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
     @Override
     public void setTitle(String title) {
         textViewTitle.setText(title);
+    }
+
+    @Override
+    public void setImage(String path) {
+        Picasso.with(getContext()).load(path).into(imageView);
     }
 
     private void initializeInjector() {

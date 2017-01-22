@@ -10,6 +10,7 @@ public interface FilmContract {
     interface View {
         String getUrlInIntent();
         void setTitle(String title);
+        void setImage(String path);
     }
 
     interface Presenter {

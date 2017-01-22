@@ -35,7 +35,8 @@ public class StartWarsApplication extends Application {
                 .appModule(new AppModule(this)).build();
 
         Utils.initApiUrls(() -> BuildConfig.API_ENDPOINT);
-        Realm.init(this);
+        Utils.initRealm(this);
+        Utils.initApiUrls(() -> BuildConfig.API_MOVIE_ENDPOINT);
     }
 
     public AppComponent getApplicationComponent() {
