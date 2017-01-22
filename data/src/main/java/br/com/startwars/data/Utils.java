@@ -3,6 +3,7 @@ package br.com.startwars.data;
 import android.content.Context;
 
 import br.com.startwars.data.api.ApiClient;
+import br.com.startwars.data.api.ApiMovieClient;
 import io.realm.Realm;
 
 /**
@@ -15,8 +16,8 @@ public class Utils {
         ApiClient.initUrls(provider);
     }
 
-    public static void initApiMovieUrls(ApiClient.UrlProvider provider) {
-        ApiClient.initUrls(provider);
+    public static void initApiMovieUrls(ApiMovieClient.UrlProvider provider) {
+        ApiMovieClient.initUrls(provider);
     }
 
     public static void initRealm(Context context) {

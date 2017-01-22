@@ -59,12 +59,6 @@ public class ApiMovieClient {
                 .flatMap(peopleCache::save);
     }
 
-    public static Single<FilmEntity> getFilm(String url, FilmCache filmCache) {
-        return getApiServices().getFilm(Utils.ReplaceStringToNumbers(url))
-                .compose(mapResponse(new FilmEntityMapper()))
-                .compose(verifyRequestError())
-                .flatMap(filmCache::save);
-    }
 
     private static SingleTransformer<Response<Void>, Response<Void>> mapResponse() {
         return upstream -> upstream.doOnSuccess(response -> {
