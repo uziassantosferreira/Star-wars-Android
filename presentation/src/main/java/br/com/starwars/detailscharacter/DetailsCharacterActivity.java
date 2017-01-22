@@ -72,7 +72,7 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
 
         initializeInjector();
         presenter.setView(this);
-        presenter.onViewCreated();
+        presenter.onViewCreated(getUrlInIntent());
 
     }
 
@@ -88,11 +88,6 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
         textViewEyeColor.setText(eyeColor);
         textViewBirthYear.setText(birthYear);
         textViewGender.setText(gender);
-    }
-
-    @Override
-    public String getUrlInIntent() {
-        return getIntent() != null ? getIntent().getStringExtra(BUNDLE_EXTRAS_URL) : null;
     }
 
     @Override
@@ -116,6 +111,10 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
     public void setFilmsInAdapter(List<String> films) {
         fragmentPagerAdapter.setList(films);
         fragmentPagerAdapter.notifyDataSetChanged();
+    }
+
+    private String getUrlInIntent() {
+        return getIntent() != null ? getIntent().getStringExtra(BUNDLE_EXTRAS_URL) : null;
     }
 
     private void initializeInjector() {

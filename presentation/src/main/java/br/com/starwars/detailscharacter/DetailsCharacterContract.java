@@ -18,8 +18,6 @@ public interface DetailsCharacterContract {
         void setFields(String name, String url, String height, String mass, String hairColor,
                        String skinColor, String eyeColor, String birthYear, String gender);
 
-        String getUrlInIntent();
-
         void finishActivity();
 
         void showGenericError();
@@ -30,7 +28,7 @@ public interface DetailsCharacterContract {
     }
 
     interface Presenter {
-        void onViewCreated();
+        void onViewCreated(String url);
         void setView(DetailsCharacterContract.View view);
     }
 

@@ -14,7 +14,6 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
     private CharactersUseCase charactersUseCase;
     private SchedulerProvider schedulerProvider;
     private DetailsCharacterContract.View view;
-    private String url;
 
     public DetailsCharacterPresenter(CharactersUseCase charactersUseCase, SchedulerProvider schedulerProvider) {
         this.charactersUseCase = charactersUseCase;
@@ -22,13 +21,12 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
     }
 
     @Override
-    public void onViewCreated() {
-        url = view.getUrlInIntent();
+    public void onViewCreated(String url) {
         view.setupView();
         if (url == null){
             view.finishActivity();
         }else {
-            getCharacter();
+            getCharacter(url);
         }
     }
 
@@ -37,7 +35,7 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
         this.view = view;
     }
 
-    private void getCharacter() {
+    private void getCharacter(String url) {
         view.showProgressDialog();
         charactersUseCase.getCharacterByUrl(url)
                 .subscribeOn(schedulerProvider.io())
