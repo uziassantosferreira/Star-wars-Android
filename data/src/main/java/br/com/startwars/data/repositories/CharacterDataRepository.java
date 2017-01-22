@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.startwars.data.api.ApiClient;
 import br.com.startwars.data.api.ApiMovieClient;
+import br.com.startwars.data.entity.MovieEntity;
 import br.com.startwars.data.mappers.CharacterMapper;
 import br.com.startwars.data.mappers.FilmMapper;
 import br.com.startwars.data.mappers.MovieMapper;
@@ -64,6 +65,12 @@ public class CharacterDataRepository implements CharacterRepository {
     public Single<Movie> getPosterByNameFilm(String name) {
         return movieCache.getMovie(name)
                 .onErrorResumeNext(ApiMovieClient.getMovie(name, movieCache))
+                .map(movieMapper::transform);
+    }
+
+    @Override
+    public Single<Movie> saveImageinMovie(Movie movie) {
+        return movieCache.save(movieMapper.transform(movie))
                 .map(movieMapper::transform);
     }
 

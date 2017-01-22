@@ -11,6 +11,7 @@ import br.com.startwars.data.mappers.CharacterMapper;
 import br.com.startwars.data.mappers.FilmMapper;
 import br.com.startwars.data.mappers.MovieMapper;
 import br.com.startwars.data.repositories.CharacterDataRepository;
+import br.com.startwars.data.repositories.FileDataRepository;
 import br.com.startwars.data.store.FilmCache;
 import br.com.startwars.data.store.MovieCache;
 import br.com.startwars.data.store.PeopleCache;
@@ -22,6 +23,7 @@ import br.com.starwars.domain.executor.ThreadExecutor;
 import br.com.starwars.domain.interactor.CharactersUseCase;
 import br.com.starwars.domain.providers.SchedulerProvider;
 import br.com.starwars.domain.repositories.CharacterRepository;
+import br.com.starwars.domain.repositories.FileRepository;
 import br.com.starwars.navigation.Navigator;
 import br.com.starwars.utils.ThreadUtil;
 import dagger.Module;
@@ -67,6 +69,12 @@ public class AppModule {
         return new CharacterDataRepository(peopleCache, characterMapper, filmCache, filmMapper,
                 movieCache, movieMapper);
     }
+    @Singleton
+    @Provides
+    FileRepository provideFileRepository(Context context){
+        return new FileDataRepository(context);
+    }
+
 
     @Singleton
     @Provides
@@ -107,9 +115,9 @@ public class AppModule {
     @Singleton
     @Provides
     CharactersUseCase provideCharactersUseCase(@Named("subscriberOn") final ThreadExecutor subscriberOn,
-                                         @Named("observerOn") final ThreadExecutor observerOn,
-                                         CharacterRepository characterRepository) {
-        return new CharactersUseCase(subscriberOn, observerOn, characterRepository);
+                                               @Named("observerOn") final ThreadExecutor observerOn,
+                                               CharacterRepository characterRepository, FileRepository fileRepository) {
+        return new CharactersUseCase(subscriberOn, observerOn, characterRepository, fileRepository);
     }
 
     @Provides

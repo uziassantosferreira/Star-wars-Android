@@ -2,6 +2,9 @@ package br.com.startwars.data;
 
 import android.content.Context;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import br.com.startwars.data.api.ApiClient;
 import br.com.startwars.data.api.ApiMovieClient;
 import io.realm.Realm;
@@ -26,5 +29,10 @@ public class Utils {
 
     public static long ReplaceStringToNumbers(String url) {
         return Long.valueOf(url.replaceAll("\\D+",""));
+    }
+
+    public static String getRandomFileName() {
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(130, random).toString(32);
     }
 }

@@ -15,6 +15,8 @@ public class MovieEntity extends RealmObject {
     @PrimaryKey
     private String name;
 
+    private boolean savedLocalBitmap;
+
     public String getPosterPath() {
         return posterPath;
     }
@@ -29,5 +31,13 @@ public class MovieEntity extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isSavedLocalBitmap() {
+        return savedLocalBitmap;
+    }
+
+    public void setSavedLocalBitmap(boolean savedLocalBitmap) {
+        this.savedLocalBitmap = savedLocalBitmap;
     }
 }

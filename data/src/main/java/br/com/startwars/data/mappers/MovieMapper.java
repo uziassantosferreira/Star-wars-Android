@@ -13,7 +13,17 @@ public class MovieMapper implements Mapper<MovieEntity, Movie>  {
     public Movie transform(MovieEntity t) {
         Movie movie = new Movie();
         movie.setPosterPath(t.getPosterPath());
+        movie.setName(t.getName());
+        movie.setSavedBitmapLocal(t.isSavedLocalBitmap());
         return movie;
+    }
+
+    public MovieEntity transform(Movie movie) {
+        MovieEntity movieEntity = new MovieEntity();
+        movieEntity.setPosterPath(movie.getPosterPath());
+        movieEntity.setName(movie.getName());
+        movieEntity.setSavedLocalBitmap(movie.isSavedBitmapLocal());
+        return movieEntity;
     }
 
 }

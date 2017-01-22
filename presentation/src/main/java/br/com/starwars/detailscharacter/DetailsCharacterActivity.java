@@ -17,6 +17,7 @@ import br.com.starwars.base.BaseActivity;
 import br.com.starwars.detailscharacter.di.DetailsCharacterModule;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Created by Uzias on 20/01/17.
@@ -52,6 +53,9 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
 
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+
+    @BindView(R.id.indicator)
+    CircleIndicator circleIndicator;
 
     @Inject
     DetailsCharacterContract.Presenter presenter;
@@ -105,6 +109,7 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
     public void setupView() {
         viewPager.setAdapter(fragmentPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
+        circleIndicator.setViewPager(viewPager );
     }
 
     @Override

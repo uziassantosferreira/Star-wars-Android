@@ -20,4 +20,6 @@ public interface CharacterRepository {
     Single<List<Character>> getListCharacters();
 
     Single<Movie> getPosterByNameFilm(String name);
+
+    Single<Movie> saveImageinMovie(Movie movie);
 }

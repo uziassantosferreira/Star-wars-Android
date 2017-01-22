@@ -4,6 +4,7 @@ package br.com.startwars.data.store.realm;
 
 import br.com.startwars.data.entity.MovieEntity;
 import br.com.startwars.data.store.MovieCache;
+import br.com.starwars.domain.models.Movie;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
@@ -45,6 +46,20 @@ public class RealmMovieCache extends RealmCache implements MovieCache {
                 }else{
                     e.onSuccess(movieEntity);
                 }
+            }
+        });
+    }
+
+    @Override
+    public Single<MovieEntity> save(MovieEntity movieEntity) {
+        return Single.create(new SingleOnSubscribe<MovieEntity>() {
+            @Override
+            public void subscribe(SingleEmitter<MovieEntity> e) throws Exception {
+                getRealm().beginTransaction();
+                getRealm().copyToRealmOrUpdate(movieEntity);
+                getRealm().commitTransaction();
+                closeRealm();
+                e.onSuccess(movieEntity);
             }
         });
     }

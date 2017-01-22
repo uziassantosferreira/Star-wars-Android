@@ -1,5 +1,7 @@
 package br.com.starwars.film;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
 import br.com.starwars.R;
 import br.com.starwars.base.BaseFragment;
-import br.com.starwars.detailscharacter.di.DetailsCharacterModule;
 import br.com.starwars.film.di.FilmModule;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +40,8 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
 
     @Inject
     FilmContract.Presenter presenter;
+
+    private Bitmap bitmap;
 
     @Nullable
     @Override
@@ -67,7 +73,35 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
 
     @Override
     public void setImage(String path) {
-        Picasso.with(getContext()).load(path).into(imageView);
+        Picasso.with(getContext()).load(path).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                FilmFragment.this.bitmap = bitmap;
+                imageView.setImageBitmap(bitmap);
+                presenter.picassoLoadedPath();
+
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
+    }
+
+    @Override
+    public Bitmap getBitmapFilm() {
+        return bitmap;
+    }
+
+    @Override
+    public void setImage(File file) {
+        Picasso.with(getContext()).load(file).into(imageView);
     }
 
     private void initializeInjector() {

@@ -1,10 +1,16 @@
 package br.com.starwars.film;
 
+import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
 import br.com.starwars.domain.interactor.CharactersUseCase;
 import br.com.starwars.domain.models.Character;
 import br.com.starwars.domain.models.Film;
 import br.com.starwars.domain.models.Movie;
 import br.com.starwars.domain.providers.SchedulerProvider;
+import br.com.starwars.utils.BitmapUtils;
 import io.reactivex.observers.DisposableSingleObserver;
 
 /**
@@ -18,6 +24,7 @@ public class FilmPresenter implements FilmContract.Presenter {
     private String url;
     private FilmContract.View view;
     private Film film;
+    private Movie movie;
 
     public FilmPresenter(CharactersUseCase charactersUseCase, SchedulerProvider schedulerProvider) {
         this.charactersUseCase = charactersUseCase;
@@ -59,7 +66,12 @@ public class FilmPresenter implements FilmContract.Presenter {
                 .subscribe(new DisposableSingleObserver<Movie>() {
                     @Override
                     public void onSuccess(Movie movie) {
-                        view.setImage(movie.getPosterPath());
+                        FilmPresenter.this.movie = movie;
+                        if (movie.isSavedBitmapLocal()){
+                            view.setImage(new File(movie.getPosterPath()));
+                        }else{
+                            view.setImage(movie.getPosterPath());
+                        }
 
                     }
 
@@ -76,7 +88,46 @@ public class FilmPresenter implements FilmContract.Presenter {
     }
 
     @Override
-    public void loadImage() {
-        getMovie();
+    public void picassoLoadedPath() {
+        if (!movie.isSavedBitmapLocal()){
+            Bitmap bitmap = view.getBitmapFilm();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            charactersUseCase.saveImageInBase64(byteArray)
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.mainThread())
+                    .subscribe(new DisposableSingleObserver<File>() {
+                        @Override
+                        public void onSuccess(File value) {
+                            movie.setPosterPath(value.getPath());
+                            movie.setSavedBitmapLocal(true);
+                            saveMovie();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+                    });
+        }
     }
+
+    private void saveMovie() {
+        charactersUseCase.saveMovie(movie) .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.mainThread())
+                .subscribe(new DisposableSingleObserver<Movie>() {
+                    @Override
+                    public void onSuccess(Movie value) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                });
+    }
+
+
 }
