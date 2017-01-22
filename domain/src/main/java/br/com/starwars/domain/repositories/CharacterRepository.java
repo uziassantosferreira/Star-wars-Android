@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.starwars.domain.models.Character;
 import br.com.starwars.domain.models.Film;
+import br.com.starwars.domain.models.Movie;
 import io.reactivex.Single;
 
 /**
@@ -17,4 +18,6 @@ public interface CharacterRepository {
     Single<Film> getFilmByUrl(String url);
 
     Single<List<Character>> getListCharacters();
+
+    Single<Movie> getPosterByNameFilm(String name);
 }

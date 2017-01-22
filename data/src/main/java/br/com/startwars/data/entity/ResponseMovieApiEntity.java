@@ -12,6 +12,8 @@ public class ResponseMovieApiEntity {
 
     private int page;
 
+
+    @SerializedName("results")
     private List<MovieApiEntity> movieApiEntities;
 
     @SerializedName("total_pages")

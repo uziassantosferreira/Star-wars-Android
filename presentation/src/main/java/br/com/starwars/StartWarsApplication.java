@@ -2,7 +2,10 @@ package br.com.starwars;
 
 import android.app.Application;
 
+import javax.inject.Inject;
+
 import br.com.startwars.data.Utils;
+import br.com.startwars.data.api.ApiMovieClient;
 import br.com.starwars.di.AppComponent;
 import br.com.starwars.di.AppModule;
 import br.com.starwars.di.DaggerAppComponent;
@@ -17,6 +20,9 @@ public class StartWarsApplication extends Application {
     private static StartWarsApplication instance;
 
     private AppComponent applicationComponent;
+
+    @Inject
+    ApiMovieClient.UrlProvider urlProvider;
 
     public static StartWarsApplication getInstance() {
         return instance;
@@ -33,9 +39,10 @@ public class StartWarsApplication extends Application {
         setInstance(this);
         applicationComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this)).build();
+        applicationComponent.inject(this);
 
         Utils.initApiUrls(() -> BuildConfig.API_ENDPOINT);
-        Utils.initApiMovieUrls(() -> BuildConfig.API_MOVIE_ENDPOINT);
+        Utils.initApiMovieUrls(urlProvider);
         Utils.initRealm(this);
 
     }

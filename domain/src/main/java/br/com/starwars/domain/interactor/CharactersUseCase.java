@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.starwars.domain.executor.ThreadExecutor;
 import br.com.starwars.domain.models.Character;
 import br.com.starwars.domain.models.Film;
+import br.com.starwars.domain.models.Movie;
 import br.com.starwars.domain.repositories.CharacterRepository;
 import io.reactivex.Single;
 
@@ -30,5 +31,9 @@ public class CharactersUseCase extends UseCase {
 
     public Single<Film> getFilmByUrl(String url) {
         return characterRepository.getFilmByUrl(url);
+    }
+
+    public Single<Movie> getMovieByName(String name) {
+        return characterRepository.getPosterByNameFilm(name);
     }
 }

@@ -11,7 +11,7 @@ public abstract class RealmCache {
     private Realm realm;
 
 
-    public Realm getRealm() {
+     Realm getRealm() {
         if (realm == null || realm.isClosed()) {
             realm = Realm.getDefaultInstance();
            // Logger.d(Thread.currentThread().getName());
@@ -19,7 +19,7 @@ public abstract class RealmCache {
         return realm;
     }
 
-    public void closeRealm() {
+    void closeRealm() {
         if (realm != null && !realm.isClosed()) {
             realm.close();
         }

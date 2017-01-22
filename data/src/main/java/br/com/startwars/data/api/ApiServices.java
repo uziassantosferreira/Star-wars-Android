@@ -22,6 +22,6 @@ public interface ApiServices {
     Single<Response<FilmApiEntity>> getFilm(@Path("id") long id);
 
     @GET("search/movie")
-    Single<Response<ResponseMovieApiEntity>> getMovie(@Query("q") String query, @Query("api_key") String apiKey);
+    Single<Response<ResponseMovieApiEntity>> getMovie(@Query("query") String query, @Query("api_key") String apiKey);
 
 }

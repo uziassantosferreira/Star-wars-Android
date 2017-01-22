@@ -74,7 +74,7 @@ public class ApiClient {
         });
     }
 
-    private static <T, U> SingleTransformer<Response<T>, U> mapResponse(Mapper<T, U> mapper) {
+    public static <T, U> SingleTransformer<Response<T>, U> mapResponse(Mapper<T, U> mapper) {
         return upstream -> upstream.map(response -> {
             if (response.isSuccessful()) {
                 return mapper.transform(response.body());
@@ -83,7 +83,7 @@ public class ApiClient {
         });
     }
 
-    private static <T> SingleTransformer<T, T> verifyRequestError() {
+    public static <T> SingleTransformer<T, T> verifyRequestError() {
         return upstream -> upstream.onErrorResumeNext(throwable -> {
             if (throwable instanceof RequestException) {
                 return Single.error(throwable);

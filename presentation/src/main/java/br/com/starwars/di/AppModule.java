@@ -6,13 +6,18 @@ import android.content.Context;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import br.com.startwars.data.api.ApiMovieClient;
 import br.com.startwars.data.mappers.CharacterMapper;
 import br.com.startwars.data.mappers.FilmMapper;
+import br.com.startwars.data.mappers.MovieMapper;
 import br.com.startwars.data.repositories.CharacterDataRepository;
 import br.com.startwars.data.store.FilmCache;
+import br.com.startwars.data.store.MovieCache;
 import br.com.startwars.data.store.PeopleCache;
 import br.com.startwars.data.store.realm.RealmFilmCache;
+import br.com.startwars.data.store.realm.RealmMovieCache;
 import br.com.startwars.data.store.realm.RealmPeopleCache;
+import br.com.starwars.BuildConfig;
 import br.com.starwars.domain.executor.ThreadExecutor;
 import br.com.starwars.domain.interactor.CharactersUseCase;
 import br.com.starwars.domain.providers.SchedulerProvider;
@@ -58,8 +63,9 @@ public class AppModule {
     @Singleton
     @Provides
     CharacterRepository provideCharacterDataRepository(PeopleCache peopleCache, CharacterMapper characterMapper
-            , FilmCache filmCache, FilmMapper filmMapper) {
-        return new CharacterDataRepository(peopleCache, characterMapper, filmCache, filmMapper);
+            , FilmCache filmCache, FilmMapper filmMapper, MovieCache movieCache, MovieMapper movieMapper) {
+        return new CharacterDataRepository(peopleCache, characterMapper, filmCache, filmMapper,
+                movieCache, movieMapper);
     }
 
     @Singleton
@@ -72,6 +78,18 @@ public class AppModule {
     @Provides
     CharacterMapper provideCharacterMapper() {
         return new CharacterMapper();
+    }
+
+    @Singleton
+    @Provides
+    MovieCache provideMovieCache() {
+        return new RealmMovieCache();
+    }
+
+    @Singleton
+    @Provides
+    MovieMapper provideMovieMapper() {
+        return new MovieMapper();
     }
 
     @Singleton
@@ -106,6 +124,27 @@ public class AppModule {
     @Named("observerOn")
     ThreadExecutor provideObserverOnExecutionThread() {
         return new ThreadExecutor(AndroidSchedulers.mainThread());
+    }
+
+    @Provides
+    @Singleton
+    ApiMovieClient.UrlProvider provideUrlProvider(){
+        return new ApiMovieClient.UrlProvider() {
+            @Override
+            public String getApiEndpoint() {
+                return BuildConfig.API_MOVIE_ENDPOINT;
+            }
+
+            @Override
+            public String getApiKey() {
+                return BuildConfig.MOVIE_API_KEY;
+            }
+
+            @Override
+            public String getMovieBaseUrlImage() {
+                return BuildConfig.MOVIE_API_BASE_URL_IMAGE;
+            }
+        };
     }
 
 }

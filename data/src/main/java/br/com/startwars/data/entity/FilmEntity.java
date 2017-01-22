@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Uzias on 18/01/17.
  */
 
-public class FilmEntity extends RealmObject{
+public class FilmEntity extends RealmObject {
 
     private String title;
 
@@ -21,11 +21,9 @@ public class FilmEntity extends RealmObject{
 
     private String producer;
 
-    @SerializedName("opening_crawl")
     private String openingCrawl;
 
-    @SerializedName("release_date")
-    public String releaseDate;
+    private String releaseDate;
 
     public String getTitle() {
         return title;

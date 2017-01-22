@@ -16,5 +16,7 @@ public interface FilmContract {
     interface Presenter {
         void onViewCreated();
         void setView(View view);
+
+        void loadImage();
     }
 }

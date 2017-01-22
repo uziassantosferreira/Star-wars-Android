@@ -9,6 +9,7 @@ import br.com.startwars.data.store.PeopleCache;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
@@ -22,11 +23,16 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
         return Single.create(new SingleOnSubscribe<PeopleEntity>() {
             @Override
             public void subscribe(SingleEmitter<PeopleEntity> e) throws Exception {
-                PeopleEntity realmResult = getRealm()
+                RealmQuery<PeopleEntity> realmQuery = getRealm()
                         .where(PeopleEntity.class)
-                        .equalTo("url", url)
-                        .findFirst();
-                PeopleEntity peopleEntity = getRealm().copyFromRealm(realmResult);
+                        .equalTo("url", url);
+
+                long realmResult = realmQuery.count();
+
+                PeopleEntity peopleEntity = null;
+                if (realmResult >= 1){
+                    peopleEntity = getRealm().copyFromRealm(realmQuery.findFirst());
+                }
                 closeRealm();
                 if (peopleEntity == null || TextUtils.isEmpty(peopleEntity.getName())){
                     e.onError(new Throwable());
@@ -71,18 +77,22 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
         return Single.create(new SingleOnSubscribe<PeopleEntity>() {
             @Override
             public void subscribe(SingleEmitter<PeopleEntity> e) throws Exception {
-                PeopleEntity realmResult = getRealm().where(PeopleEntity.class).equalTo("url", url).findFirst();
-                if (realmResult == null){
-                    getRealm().beginTransaction();
-                    PeopleEntity peopleEntity = new PeopleEntity();
+                RealmQuery<PeopleEntity> realmQuery = getRealm().where(PeopleEntity.class).equalTo("url", url);
+                long realmResult = realmQuery.count();
+
+                PeopleEntity peopleEntity;
+                if (realmResult >= 1){
+                    peopleEntity = new PeopleEntity();
                     peopleEntity.setUrl(url);
-                    getRealm().copyToRealmOrUpdate(peopleEntity);
+                    getRealm().beginTransaction();
+                    getRealm().copyToRealm(peopleEntity);
                     getRealm().commitTransaction();
-                    closeRealm();
-                    e.onSuccess(peopleEntity);
                 }else{
-                    e.onError(new Throwable());
+                    peopleEntity = getRealm().copyFromRealm(realmQuery.findFirst());
                 }
+
+                closeRealm();
+                e.onSuccess(peopleEntity);
 
             }
         });

@@ -34,11 +34,15 @@ android {
 
             buildConfigField "String", "API_ENDPOINT", "\"http://swapi.co/api/\""
             buildConfigField "String", "API_MOVIE_ENDPOINT", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "MOVIE_API_KEY", "\"2f99c9cbc56189fd42985cec19e6b59f\""
+            buildConfigField "String", "MOVIE_API_BASE_URL_IMAGE", "\"http://image.tmdb.org/t/p/original\""
         }
 
         debug {
             buildConfigField "String", "API_ENDPOINT", "\"http://swapi.co/api/\""
             buildConfigField "String", "API_MOVIE_ENDPOINT", "\"https://api.themoviedb.org/3/\""
+            buildConfigField "String", "MOVIE_API_KEY", "\"2f99c9cbc56189fd42985cec19e6b59f\""
+            buildConfigField "String", "MOVIE_API_BASE_URL_IMAGE", "\"http://image.tmdb.org/t/p/original\""
         }
 
     }
