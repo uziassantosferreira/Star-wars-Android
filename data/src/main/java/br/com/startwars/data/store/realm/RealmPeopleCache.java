@@ -82,13 +82,13 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
 
                 PeopleEntity peopleEntity;
                 if (realmResult >= 1){
+                    peopleEntity = getRealm().copyFromRealm(realmQuery.findFirst());
+                }else{
                     peopleEntity = new PeopleEntity();
                     peopleEntity.setUrl(url);
                     getRealm().beginTransaction();
                     getRealm().copyToRealm(peopleEntity);
                     getRealm().commitTransaction();
-                }else{
-                    peopleEntity = getRealm().copyFromRealm(realmQuery.findFirst());
                 }
 
                 closeRealm();
