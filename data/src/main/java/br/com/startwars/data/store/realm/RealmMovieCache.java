@@ -35,15 +35,16 @@ public class RealmMovieCache extends RealmCache implements MovieCache {
         return Single.create(new SingleOnSubscribe<MovieEntity>() {
             @Override
             public void subscribe(SingleEmitter<MovieEntity> e) throws Exception {
-                MovieEntity realmResult = getRealm()
+                MovieEntity movieEntity = getRealm()
                         .where(MovieEntity.class)
                         .equalTo("name", name)
                         .findFirst();
-                MovieEntity movieEntity = getRealm().copyFromRealm(realmResult);
-                closeRealm();
                 if (movieEntity == null){
                     e.onError(new Throwable());
+                    closeRealm();
                 }else{
+                    movieEntity = getRealm().copyFromRealm(movieEntity);
+                    closeRealm();
                     e.onSuccess(movieEntity);
                 }
             }

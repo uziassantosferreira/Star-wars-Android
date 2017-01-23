@@ -19,19 +19,15 @@ public class RealmFilmCache extends RealmCache implements FilmCache {
         return Single.create(new SingleOnSubscribe<FilmEntity>() {
             @Override
             public void subscribe(SingleEmitter<FilmEntity> e) throws Exception {
-                RealmQuery<FilmEntity> realmQuery = getRealm()
+                FilmEntity filmEntity = getRealm()
                         .where(FilmEntity.class)
-                        .equalTo("url", url);
-
-                Long count = realmQuery.count();
-                FilmEntity filmEntity = null;
-                if (count >= 1){
-                    filmEntity = getRealm().copyFromRealm(realmQuery.findFirst());
-                }
-                closeRealm();
+                        .equalTo("url", url).findFirst();
                 if (filmEntity == null){
                     e.onError(new Throwable());
+                    closeRealm();
                 }else{
+                    filmEntity = getRealm().copyFromRealm(filmEntity);
+                    closeRealm();
                     e.onSuccess(filmEntity);
                 }
             }

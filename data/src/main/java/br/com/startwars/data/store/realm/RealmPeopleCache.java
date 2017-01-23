@@ -23,21 +23,17 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
         return Single.create(new SingleOnSubscribe<PeopleEntity>() {
             @Override
             public void subscribe(SingleEmitter<PeopleEntity> e) throws Exception {
-                RealmQuery<PeopleEntity> realmQuery = getRealm()
+                PeopleEntity peopleEntity = getRealm()
                         .where(PeopleEntity.class)
-                        .equalTo("url", url);
+                        .equalTo("url", url).findFirst();
 
-                long realmResult = realmQuery.count();
-
-                PeopleEntity peopleEntity = null;
-                if (realmResult >= 1){
-                    peopleEntity = getRealm().copyFromRealm(realmQuery.findFirst());
-                }
-                closeRealm();
-                if (peopleEntity == null || TextUtils.isEmpty(peopleEntity.getName())){
-                    e.onError(new Throwable());
-                }else{
+                if (peopleEntity != null && !TextUtils.isEmpty(peopleEntity.getName())){
+                    peopleEntity = getRealm().copyFromRealm(peopleEntity);
+                    closeRealm();
                     e.onSuccess(peopleEntity);
+                }else{
+                    closeRealm();
+                    e.onError(new Throwable());
                 }
             }
         });
@@ -77,12 +73,9 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
         return Single.create(new SingleOnSubscribe<PeopleEntity>() {
             @Override
             public void subscribe(SingleEmitter<PeopleEntity> e) throws Exception {
-                RealmQuery<PeopleEntity> realmQuery = getRealm().where(PeopleEntity.class).equalTo("url", url);
-                long realmResult = realmQuery.count();
-
-                PeopleEntity peopleEntity;
-                if (realmResult >= 1){
-                    peopleEntity = getRealm().copyFromRealm(realmQuery.findFirst());
+                PeopleEntity peopleEntity = getRealm().where(PeopleEntity.class).equalTo("url", url).findFirst();
+                if (peopleEntity != null){
+                    peopleEntity = getRealm().copyFromRealm(peopleEntity);
                 }else{
                     peopleEntity = new PeopleEntity();
                     peopleEntity.setUrl(url);
@@ -90,7 +83,6 @@ public class RealmPeopleCache extends RealmCache implements PeopleCache {
                     getRealm().copyToRealm(peopleEntity);
                     getRealm().commitTransaction();
                 }
-
                 closeRealm();
                 e.onSuccess(peopleEntity);
 
