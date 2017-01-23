@@ -11,7 +11,7 @@ import br.com.startwars.data.api.ApiMovieClient;
 import br.com.starwars.di.AppComponent;
 import br.com.starwars.di.AppModule;
 import br.com.starwars.di.DaggerAppComponent;
-import io.realm.Realm;
+
 
 /**
  * Created by Uzias on 17/01/17.
