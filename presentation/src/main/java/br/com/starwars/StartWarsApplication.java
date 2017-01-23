@@ -2,6 +2,8 @@ package br.com.starwars;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import javax.inject.Inject;
 
 import br.com.startwars.data.Utils;
@@ -35,6 +37,7 @@ public class StartWarsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         setInstance(this);
         applicationComponent = DaggerAppComponent.builder()
