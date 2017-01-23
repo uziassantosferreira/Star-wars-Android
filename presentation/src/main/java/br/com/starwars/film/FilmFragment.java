@@ -58,12 +58,7 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.setView(this);
-        presenter.onViewCreated();
-    }
-
-    @Override
-    public String getUrlInIntent() {
-        return getArguments() != null ? getArguments().getString(BUNDLE_EXTRAS_URL) : null;
+        presenter.onViewCreated(getUrlInIntent());
     }
 
     @Override
@@ -102,6 +97,10 @@ public class FilmFragment extends BaseFragment implements FilmContract.View {
     @Override
     public void setImage(File file) {
         Picasso.with(getContext()).load(file).into(imageView);
+    }
+
+    private String getUrlInIntent() {
+        return getArguments() != null ? getArguments().getString(BUNDLE_EXTRAS_URL) : null;
     }
 
     private void initializeInjector() {

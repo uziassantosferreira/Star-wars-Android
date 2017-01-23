@@ -1,7 +1,6 @@
 package br.com.starwars.listcharacters;
 
 import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import org.junit.Before;
 import org.junit.Test;

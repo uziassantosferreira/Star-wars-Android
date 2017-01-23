@@ -21,9 +21,7 @@ public class FilmPresenter implements FilmContract.Presenter {
 
     private CharactersUseCase charactersUseCase;
     private SchedulerProvider schedulerProvider;
-    private String url;
     private FilmContract.View view;
-    private Film film;
     private Movie movie;
 
     public FilmPresenter(CharactersUseCase charactersUseCase, SchedulerProvider schedulerProvider) {
@@ -32,24 +30,20 @@ public class FilmPresenter implements FilmContract.Presenter {
     }
 
     @Override
-    public void onViewCreated() {
-        url = view.getUrlInIntent();
-        if (url != null){
-            getFilm();
-        }
+    public void onViewCreated(String url) {
+        getFilm(url);
 
     }
 
-    private void getFilm() {
+    private void getFilm(String url) {
         charactersUseCase.getFilmByUrl(url)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(new DisposableSingleObserver<Film>() {
                     @Override
                     public void onSuccess(Film film) {
-                        FilmPresenter.this.film = film;
                         view.setTitle(film.getTitle());
-                        getMovie();
+                        getMovie(film);
                     }
 
                     @Override
@@ -59,7 +53,7 @@ public class FilmPresenter implements FilmContract.Presenter {
                 });
     }
 
-    private void getMovie(){
+    private void getMovie(Film film){
         charactersUseCase.getMovieByName(film.getTitle())
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
@@ -114,7 +108,8 @@ public class FilmPresenter implements FilmContract.Presenter {
     }
 
     private void saveMovie() {
-        charactersUseCase.saveMovie(movie) .subscribeOn(schedulerProvider.io())
+        charactersUseCase.saveMovie(movie)
+                .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.mainThread())
                 .subscribe(new DisposableSingleObserver<Movie>() {
                     @Override

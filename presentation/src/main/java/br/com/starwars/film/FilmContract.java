@@ -12,7 +12,6 @@ import java.io.File;
 public interface FilmContract {
 
     interface View {
-        String getUrlInIntent();
         void setTitle(String title);
         void setImage(String path);
         Bitmap getBitmapFilm();
@@ -21,7 +20,7 @@ public interface FilmContract {
     }
 
     interface Presenter {
-        void onViewCreated();
+        void onViewCreated(String url);
         void setView(View view);
 
 
