@@ -104,13 +104,14 @@ public class DetailsCharacterActivity extends BaseActivity implements DetailsCha
     public void setupView() {
         viewPager.setAdapter(fragmentPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
-        circleIndicator.setViewPager(viewPager );
+
     }
 
     @Override
     public void setFilmsInAdapter(List<String> films) {
         fragmentPagerAdapter.setList(films);
         fragmentPagerAdapter.notifyDataSetChanged();
+        circleIndicator.setViewPager(viewPager);
     }
 
     private String getUrlInIntent() {
