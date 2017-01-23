@@ -25,7 +25,7 @@ android {
         release {
             keyAlias 'starwars'
             keyPassword '3DCAB714E4984486'
-            storeFile file('/Users/Uzias/Develop/android/StarWars/keystore/keystore.jks')
+            storeFile file('/StarWars/keystore/keystore.jks')
             storePassword '3DCAB714E4984486'
         }
     }
