@@ -43,6 +43,10 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
                 .subscribe(new DisposableSingleObserver<Character>() {
                     @Override
                     public void onSuccess(Character character) {
+                        if (character.getName() == null){
+                            showError();
+                            return;
+                        }
                         view.setFields(character.getName(), character.getUrl(), character.getHeight(),
                                 character.getMass(), character.getHairColor(), character.getSkinColor(),
                                 character.getEyeColor(), character.getBirthYear(), character.getGender());
@@ -53,10 +57,15 @@ public class DetailsCharacterPresenter implements DetailsCharacterContract.Prese
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        view.hideProgressDialog();
-                        view.showGenericError();
+                        showError();
                     }
                 });
+    }
+
+    private void showError() {
+        view.hideProgressDialog();
+        view.showGenericError();
+        view.finishActivity();
     }
 
 }
